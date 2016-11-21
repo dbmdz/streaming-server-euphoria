@@ -1,4 +1,5 @@
 - pattern: ^([^.]*?)$
+  # just examples, change the filepath to your setup
   substitutions:
     - 'file:/bsbmultimedia/$1.mp4'
     - 'file:/bsbmultimedia/$1.mp3'
