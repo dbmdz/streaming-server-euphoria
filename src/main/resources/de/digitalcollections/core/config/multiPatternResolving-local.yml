@@ -1,0 +1,8 @@
+- pattern: ^([^.]*?)$
+  substitutions:
+    - 'file:~/Downloads/$1.mp4'
+    - 'file:~/Downloads/$1.mp3'
+    - 'file:~/Downloads/$1.ogg'
+    - 'file:~/Downloads/$1.pdf'
+    - 'file:~/Downloads/$1.txt'
+    - 'file:~/Downloads/$1.xml'

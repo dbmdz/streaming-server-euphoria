@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-mvn jetty:run (debug)</actionName>
+            <displayName>mvn jetty:run (debug)</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
+            <properties>
+                <jpda.listen>maven</jpda.listen>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-mvn deploy</actionName>
+            <displayName>mvn deploy</displayName>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </action>
+    </actions>
