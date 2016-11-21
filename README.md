@@ -67,7 +67,7 @@ Deploy Bookshelf WAR into Tomcat:
 $ mv /tmp/streaming-server-euphoria.war /opt/tomcat/apache-tomcat-8.0.35/webapps
 ```
 
-## Configuration
+### Configuration
 
 Based on unique resource identifiers corresponding to the requested filenames the server tries to resolve identifiers to a "file:" path.
 The resolving rules (one rule per line) are configurable with regular expressions in yaml-files.
