@@ -57,6 +57,8 @@
     <version.jetty-maven-plugin>9.3.3.v20150827</version.jetty-maven-plugin>
     <version.joda-time>2.5</version.joda-time>
     <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
+    <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
+    <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
     <version.maven-war-plugin>2.6</version.maven-war-plugin>
     <version.slf4j>1.7.21</version.slf4j>
     <version.springframework>4.2.5.RELEASE</version.springframework>
@@ -156,6 +158,32 @@
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${version.maven-javadoc-plugin}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${version.maven-source-plugin}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
