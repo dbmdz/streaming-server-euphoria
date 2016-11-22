@@ -1,5 +1,6 @@
 # Euphoria Streaming Server
 
+[![Build Status](https://travis-ci.org/dbmdz/streaming-server-euphoria.svg?branch=master)](https://travis-ci.org/dbmdz/streaming-server-euphoria)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Supported formats
