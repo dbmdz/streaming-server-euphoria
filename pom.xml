@@ -9,6 +9,40 @@
   <packaging>war</packaging>
 
   <name>DigitalCollections: Euphoria Streaming Server</name>
+  <description> Euphoria is a streaming server for video, audio and other files.</description>
+  <url>https://github.com/dbmdz/streaming-server-euphoria</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/dbmdz/streaming-server-euphoria/blob/master/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Ralf Eichinger</name>
+      <email>ralf.eichinger@bsb-muenchen.de</email>
+      <id>datazuul</id>
+    </developer>
+    <developer>
+      <name>Matthias Lindinger</name>
+      <email>matthias.lindinger@bsb-muenchen.de</email>
+      <id>morpheus-87</id>
+    </developer>
+  </developers>
+  <ciManagement>
+    <url>https://travis-ci.org/dbmdz/streaming-server-euphoria</url>
+    <system>Travis CI</system>
+  </ciManagement>
+  <issueManagement>
+    <url>https://github.com/dbmdz/streaming-server-euphoria/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+  <scm>
+    <connection>https://github.com/dbmdz/streaming-server-euphoria.git</connection>
+    <developerConnection>git@github.com:dbmdz/streaming-server-euphoria.git</developerConnection>
+    <url>https://github.com/dbmdz/streaming-server-euphoria</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -164,17 +198,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <developers>
-    <developer>
-      <id>ralf</id>
-      <name>Ralf Eichinger</name>
-      <email>ralf.eichinger@bsb-muenchen.de</email>
-      <roles>
-        <role>Developer</role>
-      </roles>
-      <organization>MDZ</organization>
-      <organizationUrl>http://www.digitale-sammlungen.de/</organizationUrl>
-    </developer>
-  </developers>
 </project>
