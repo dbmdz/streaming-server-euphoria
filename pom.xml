@@ -239,6 +239,7 @@
           <classesDirectory>${project.build.directory}/classes</classesDirectory>
           <scanIntervalSeconds>2</scanIntervalSeconds>
           <webApp>
+            <contextPath>/media</contextPath>
             <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
             <resourceBases>
               <resourceBase>src/main/webapp</resourceBase>
