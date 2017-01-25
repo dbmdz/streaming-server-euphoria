@@ -12,7 +12,7 @@
               <h3 class="panel-title">Viewing MP4-video "/stream/<span th:text="@{__${identifier}__}">...</span>/default.mp4" in HTML5</h3>
             </div>
             <div class="panel-body" style="text-align: center;">
-              <video width="800" height="450" controls="true">
+              <video width="800" height="450" controls="true" preload="auto">
                 <source th:src="@{/stream/__${identifier}__/default.mp4}" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
