@@ -3,6 +3,7 @@ package de.digitalcollections.streaming.euphoria.webapp.config;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.thymeleaf.extras.conditionalcomments.dialect.ConditionalCommentsDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -112,5 +117,19 @@ public class SpringConfigWeb extends WebMvcConfigurerAdapter {
     viewResolver.setContentType("text/html; charset=UTF-8");
     viewResolver.setCharacterEncoding("UTF-8");
     return viewResolver;
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+    localeChangeInterceptor.setParamName("language");
+    registry.addInterceptor(localeChangeInterceptor);
+  }
+
+  @Bean(name = "localeResolver")
+  public LocaleResolver sessionLocaleResolver() {
+    SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+    localeResolver.setDefaultLocale(Locale.GERMAN);
+    return localeResolver;
   }
 }
