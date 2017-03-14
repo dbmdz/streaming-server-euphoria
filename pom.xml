@@ -266,7 +266,7 @@
             </systemProperty>
           </systemProperties>
           <httpConnector>
-            <port>10000</port>
+            <port>9898</port>
           </httpConnector>
         </configuration>
       </plugin>
