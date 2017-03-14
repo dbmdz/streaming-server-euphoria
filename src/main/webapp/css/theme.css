@@ -36,6 +36,10 @@ body {
   width: auto;
 }
 
+.panel .table {
+  margin-bottom: 0;
+}
+
 footer {
   position: absolute;
   bottom: 0;
