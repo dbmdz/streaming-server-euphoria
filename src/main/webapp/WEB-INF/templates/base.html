@@ -34,7 +34,7 @@
   <body role="document">
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -43,7 +43,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" th:href="@{/}"><span><img th:src="@{/images/euphoria-logo_title.png}" height="50" style="margin-top: -5px;" /></span> </a>
+          <a class="navbar-brand logo" th:href="@{/}">
+            <img th:src="@{/images/euphoria-logo_title.png}" />
+          </a>
         </div>
       </div>
     </nav>

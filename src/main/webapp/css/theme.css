@@ -1,20 +1,21 @@
 body {
   padding-top: 75px;
-  padding-bottom: 30px;
-}
-
-.jumbotron {
-  text-align: center;
 }
 
 .navbar {
   background-color: white;
   border-bottom: solid 1px #e5e5e5;
-  height: 70px;
+  min-height: 45px;
 }
 
-.openseadragon {
-  border: solid 1px #e5e5e5;
+.navbar-brand.logo > img {
+  height: 40px;
+  margin-top: -10px;
+}
+
+.jumbotron {
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .theme-dropdown .dropdown-menu {
