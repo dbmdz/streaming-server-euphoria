@@ -13,6 +13,10 @@ body {
   margin-top: -10px;
 }
 
+.navbar .navbar-right {
+  margin-right: 0;
+}
+
 .jumbotron {
   margin-bottom: 25px;
   text-align: center;

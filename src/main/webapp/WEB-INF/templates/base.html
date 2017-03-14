@@ -47,6 +47,13 @@
             <img th:src="@{/images/euphoria-logo_title.png}" />
           </a>
         </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li th:class="${menu} == 'home' ? 'active'">
+              <a th:href="@{/}">Home</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
