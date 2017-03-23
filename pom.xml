@@ -52,7 +52,7 @@
 
     <version.aspectjweaver>1.8.9</version.aspectjweaver>
     <version.commons-io>2.5</version.commons-io>
-    <version.digitalcollections-core>1.2.4-SNAPSHOT</version.digitalcollections-core>
+    <version.digitalcollections-core>1.2.4</version.digitalcollections-core>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
     <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
     <version.jetty-maven-plugin>9.3.3.v20150827</version.jetty-maven-plugin>
