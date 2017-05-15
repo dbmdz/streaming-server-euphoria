@@ -1,17 +1,20 @@
 package de.digitalcollections.streaming.euphoria.webapp.config;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
+import de.digitalcollections.commons.springmvc.config.SpringConfigCommonsMvc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.MediaType;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.thymeleaf.extras.conditionalcomments.dialect.ConditionalCommentsDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
@@ -37,6 +41,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
  */
 @Configuration
 @ComponentScan(basePackages = {
+  "de.digitalcollections.commons.springmvc.controller",
   "de.digitalcollections.streaming.euphoria.webapp.controller"
 })
 @EnableAspectJAutoProxy
@@ -44,6 +49,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @PropertySource(value = {
   "classpath:de/digitalcollections/streaming/euphoria/webapp/config/SpringConfigWeb-${spring.profiles.active:PROD}.properties"
 })
+@Import(SpringConfigCommonsMvc.class)
 public class SpringConfigWeb extends WebMvcConfigurerAdapter {
 
   @Bean
@@ -53,6 +59,10 @@ public class SpringConfigWeb extends WebMvcConfigurerAdapter {
 
   @Value("${cacheTemplates}")
   private boolean cacheTemplates;
+
+  @Autowired
+  @Qualifier("CommonsClasspathThymeleafResolver")
+  private ClassLoaderTemplateResolver commonsClasspathThymeleafResolver;
 
   @Autowired
   private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
@@ -101,7 +111,12 @@ public class SpringConfigWeb extends WebMvcConfigurerAdapter {
   @Bean
   public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    templateEngine.addTemplateResolver(servletContextTemplateResolver());
+    commonsClasspathThymeleafResolver.setOrder(1);
+    final TemplateResolver servletContextTemplateResolver = servletContextTemplateResolver();
+    servletContextTemplateResolver.setOrder(2);
+
+    templateEngine.addTemplateResolver(commonsClasspathThymeleafResolver);
+    templateEngine.addTemplateResolver(servletContextTemplateResolver);
     // Activate Thymeleaf LayoutDialect[1] (for 'layout'-namespace)
     // [1] https://github.com/ultraq/thymeleaf-layout-dialect
     templateEngine.addDialect(new LayoutDialect());

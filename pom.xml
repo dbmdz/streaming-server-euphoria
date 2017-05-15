@@ -52,6 +52,7 @@
 
     <version.aspectjweaver>1.8.9</version.aspectjweaver>
     <version.commons-io>2.5</version.commons-io>
+    <version.digitalcollections-commons>1.2.2-SNAPSHOT</version.digitalcollections-commons>
     <version.digitalcollections-core>1.2.4</version.digitalcollections-core>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
     <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
@@ -103,6 +104,11 @@
       <artifactId>digitalcollections-core-business-impl</artifactId>
       <version>${version.digitalcollections-core}</version>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.digitalcollections.commons</groupId>
+      <artifactId>digitalcollections-commons-springmvc</artifactId>
+      <version>${version.digitalcollections-commons}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
