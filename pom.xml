@@ -3,13 +3,13 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.digitalcollections</groupId>
-  <artifactId>streaming-server-euphoria</artifactId>
-  <version>1.1.2-SNAPSHOT</version>
-  <packaging>war</packaging>
-
   <name>DigitalCollections: Euphoria Streaming Server</name>
   <description> Euphoria is a streaming server for video, audio and other files.</description>
+  <groupId>de.digitalcollections</groupId>
+  <artifactId>streaming-server-euphoria</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
   <url>https://github.com/dbmdz/streaming-server-euphoria</url>
   <licenses>
     <license>
@@ -45,6 +45,7 @@
   </scm>
 
   <properties>
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -52,24 +53,27 @@
 
     <version.aspectjweaver>1.8.9</version.aspectjweaver>
     <version.commons-io>2.5</version.commons-io>
+    <version.dc-core-backend-file>2.0.0</version.dc-core-backend-file>
+    <version.dc-core-business>2.0.0</version.dc-core-business>
     <version.digitalcollections-commons>1.2.2</version.digitalcollections-commons>
     <version.digitalcollections-core>1.2.5</version.digitalcollections-core>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
     <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
     <version.jetty-maven-plugin>9.3.3.v20150827</version.jetty-maven-plugin>
     <version.joda-time>2.5</version.joda-time>
-    <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
+    <version.maven-compiler-plugin>3.7.0</version.maven-compiler-plugin>
     <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
     <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
+    <version.maven-resources-plugin>3.0.2</version.maven-resources-plugin>
     <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
     <version.maven-war-plugin>2.6</version.maven-war-plugin>
     <version.nexus-staging-maven-plugin>1.6.7</version.nexus-staging-maven-plugin>
     <version.slf4j>1.7.21</version.slf4j>
     <version.springframework>4.3.6.RELEASE</version.springframework>
-    <version.thymeleaf>2.1.4.RELEASE</version.thymeleaf>
+    <version.thymeleaf>3.0.7.RELEASE</version.thymeleaf>
     <version.thymeleaf-extras-conditionalcomments>2.1.2.RELEASE</version.thymeleaf-extras-conditionalcomments>
     <version.thymeleaf-extras-data-attribute>1.3</version.thymeleaf-extras-data-attribute>
-    <version.thymeleaf-layout-dialect>1.2.7</version.thymeleaf-layout-dialect>
+    <version.thymeleaf-layout-dialect>2.2.2</version.thymeleaf-layout-dialect>
     <version.versions-maven-plugin>2.3</version.versions-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
@@ -78,18 +82,87 @@
     <version.webjar-respond>1.4.2</version.webjar-respond>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>1.5.8.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <dependencies>
     <dependency>
+      <groupId>de.digitalcollections.core</groupId>
+      <artifactId>dc-core-backend-file</artifactId>
+      <version>${version.dc-core-backend-file}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.digitalcollections.core</groupId>
+      <artifactId>dc-core-business</artifactId>
+      <version>${version.dc-core-business}</version>
+    </dependency>
+    <dependency>
+      <groupId>nz.net.ultraq.thymeleaf</groupId>
+      <artifactId>thymeleaf-layout-dialect</artifactId>
+      <version>${version.thymeleaf-layout-dialect}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-hateoas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+      <version>${version.thymeleaf}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring4</artifactId>
+      <version>${version.thymeleaf}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>hal-browser</artifactId>
+    </dependency>
+    
+<!--    <dependency>
       <groupId>com.github.mxab.thymeleaf.extras</groupId>
       <artifactId>thymeleaf-extras-data-attribute</artifactId>
       <version>${version.thymeleaf-extras-data-attribute}</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+<!--    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${version.commons-io}</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+<!--    <dependency>
       <groupId>de.digitalcollections</groupId>
       <artifactId>digitalcollections-core-backend-impl-file</artifactId>
       <version>${version.digitalcollections-core}</version>
@@ -111,20 +184,10 @@
       <version>${version.digitalcollections-commons}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${version.javax.servlet-api}</version>
-    </dependency>
-    <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${version.joda-time}</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>nz.net.ultraq.thymeleaf</groupId>
-      <artifactId>thymeleaf-layout-dialect</artifactId>
-      <version>${version.thymeleaf-layout-dialect}</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
@@ -136,13 +199,8 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${version.slf4j}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${version.slf4j}</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+<!--    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${version.springframework}</version>
@@ -151,22 +209,12 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>${version.springframework}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-      <version>${version.thymeleaf}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf-spring4</artifactId>
-      <version>${version.thymeleaf}</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+<!--    <dependency>
       <groupId>org.thymeleaf.extras</groupId>
       <artifactId>thymeleaf-extras-conditionalcomments</artifactId>
       <version>${version.thymeleaf-extras-conditionalcomments}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>bootstrap</artifactId>
@@ -201,11 +249,27 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>application.yml</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${version.maven-compiler-plugin}</version>
         <configuration>
+          <showDeprecation>true</showDeprecation>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
         </configuration>
@@ -225,6 +289,17 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${version.maven-resources-plugin}</version>
+        <configuration>
+          <delimiters>
+            <delimiter>@</delimiter>
+          </delimiters>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+        </configuration>
+      </plugin>
+<!--      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>${version.maven-source-plugin}</version>
         <executions>
@@ -235,46 +310,11 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${version.maven-war-plugin}</version>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
         <version>${version.versions-maven-plugin}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${version.jetty-maven-plugin}</version>
-        <configuration>
-          <classesDirectory>${project.build.directory}/classes</classesDirectory>
-          <scanIntervalSeconds>2</scanIntervalSeconds>
-          <webApp>
-            <contextPath>/media</contextPath>
-            <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-            <resourceBases>
-              <resourceBase>src/main/webapp</resourceBase>
-              <!--<resourceBase>${project.build.directory}/${project.build.finalName}</resourceBase>-->
-            </resourceBases>
-            <webInfIncludeJarPattern>.*/.*(spring-security-web|spring-webmvc|spring-web).*\.jar$</webInfIncludeJarPattern>
-          </webApp>
-          <systemProperties>
-            <systemProperty>
-              <name>spring.profiles.active</name>
-              <value>local</value>
-            </systemProperty>
-          </systemProperties>
-          <httpConnector>
-            <port>9898</port>
-          </httpConnector>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -309,6 +349,21 @@
           <serverId>ossrh</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>1.5.8.RELEASE</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classifier>exec</classifier>
         </configuration>
       </plugin>
     </plugins>

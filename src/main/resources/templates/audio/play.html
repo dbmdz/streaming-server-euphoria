@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html 
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="base">
+  layout:decorate="~{base}">
   <body>
     <section layout:fragment="content">
 
@@ -9,13 +9,13 @@
         <div class="col-sm-12">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">Viewing MP4-video "/stream/<span th:text="@{__${identifier}__}">...</span>/default.mp4" in HTML5</h3>
+              <h3 class="panel-title">Playing OGG-audio "/stream/<span th:text="@{__${identifier}__}">...</span>/default.ogg" in HTML5</h3>
             </div>
             <div class="panel-body" style="text-align: center;">
-              <video width="800" height="450" controls="true" preload="auto">
-                <source th:src="@{/stream/__${identifier}__/default.mp4}" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <audio controls="true">
+                <source th:src="@{/stream/__${identifier}__/default.ogg}" type="audio/ogg" />
+                Your browser does not support the audio element.
+              </audio>
             </div>
           </div>
         </div>

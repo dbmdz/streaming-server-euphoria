@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.webapp.controller;
+package de.digitalcollections.streaming.euphoria.controller;
 
 import de.digitalcollections.core.business.api.ResourceService;
 import de.digitalcollections.core.model.api.MimeType;
@@ -17,13 +17,11 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletOutputStream;
@@ -37,6 +35,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * <p>
@@ -101,6 +102,44 @@ public class StreamingController {
       }
     }
   }
+
+  /**
+   * Returns true if the given match header matches the given value.
+   *
+   * @param matchHeader The match header.
+   * @param toMatch The value to be matched.
+   * @return True if the given match header matches the given value.
+   */
+  private static boolean matches(String matchHeader, String toMatch) {
+    String[] matchValues = matchHeader.split("\\s*,\\s*");
+    Arrays.sort(matchValues);
+    return Arrays.binarySearch(matchValues, toMatch) > -1
+            || Arrays.binarySearch(matchValues, "*") > -1;
+  }
+
+  /**
+   * Returns true if the given modified header is older than the given last modified value.
+   */
+  private static boolean modified(long modifiedHeader, long lastModified) {
+    return (modifiedHeader + ONE_SECOND_IN_MILLIS <= lastModified); // That second is because the header is in seconds, not millis.
+  }
+
+  /**
+   * Returns a substring of the given string value from the given begin index to the given end index as a long. If the
+   * substring is empty, then -1 will be returned
+   *
+   * @param value The string value to return a substring as long for.
+   * @param beginIndex The begin index of the substring to be returned as long.
+   * @param endIndex The end index of the substring to be returned as long.
+   * @return A substring of the given string value as long or -1 if substring is empty.
+   */
+  private static long sublong(String value, int beginIndex, int endIndex) {
+    String substring = value.substring(beginIndex, endIndex);
+    return (substring.length() > 0) ? Long.parseLong(substring) : -1;
+  }
+
+  @Autowired
+  ResourceService resourceService;
 
   /**
    * Copy the given byte range of the given input to the given output.
@@ -185,6 +224,13 @@ public class StreamingController {
     }
   }
 
+  @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.HEAD)
+  public void getHead(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
+          throws Exception {
+    LOGGER.info("HEAD request!");
+    respond(id, extension, request, response, true);
+  }
+
   /**
    * <p>
    * Set the no-cache headers. The following headers will be set:
@@ -201,119 +247,6 @@ public class StreamingController {
     response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
     response.setDateHeader("Expires", 0);
     response.setHeader("Pragma", "no-cache"); // Backwards compatibility for HTTP 1.0.
-  }
-
-  /**
-   * Returns true if the given match header matches the given value.
-   *
-   * @param matchHeader The match header.
-   * @param toMatch The value to be matched.
-   * @return True if the given match header matches the given value.
-   */
-  private static boolean matches(String matchHeader, String toMatch) {
-    String[] matchValues = matchHeader.split("\\s*,\\s*");
-    Arrays.sort(matchValues);
-    return Arrays.binarySearch(matchValues, toMatch) > -1
-            || Arrays.binarySearch(matchValues, "*") > -1;
-  }
-
-  /**
-   * Returns true if the given modified header is older than the given last modified value.
-   */
-  private static boolean modified(long modifiedHeader, long lastModified) {
-    return (modifiedHeader + ONE_SECOND_IN_MILLIS <= lastModified); // That second is because the header is in seconds, not millis.
-  }
-
-  /**
-   * <p>
-   * Set the cache headers. If the <code>expires</code> argument is larger than 0 seconds, then the following headers
-   * will be set:
-   * <ul>
-   * <li><code>Cache-Control: public,max-age=[expiration time in seconds],must-revalidate</code></li>
-   * <li><code>Expires: [expiration date of now plus expiration time in seconds]</code></li>
-   * </ul>
-   * <p>
-   * Else the method will delegate to {@link #setNoCacheHeaders(HttpServletResponse)}.
-   *
-   * @param response The HTTP servlet response to set the headers on.
-   * @param expires The expire time in seconds (not milliseconds!).
-   */
-  private void setCacheHeaders(HttpServletResponse response, long expires) {
-    if (expires > 0) {
-      response.setHeader("Cache-Control", "public,max-age=" + expires + ",must-revalidate");
-      response.setDateHeader("Expires", System.currentTimeMillis() + SECONDS.toMillis(expires));
-      response.setHeader("Pragma", ""); // Explicitly set pragma to prevent container from overriding it.
-    } else {
-      setNoCacheHeaders(response);
-    }
-  }
-
-  /**
-   * Returns <code>true</code> if the given string starts with one of the given prefixes.
-   *
-   * @param string The object to be checked if it starts with one of the given prefixes.
-   * @param prefixes The argument list of prefixes to be checked
-   * @return <code>true</code> if the given string starts with one of the given prefixes.
-   * @since 1.4
-   */
-  private boolean startsWithOneOf(String string, String... prefixes) {
-    for (String prefix : prefixes) {
-      if (string.startsWith(prefix)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Stream the given input to the given output via NIO {@link Channels} and a directly allocated NIO
-   * {@link ByteBuffer}. Both the input and output streams will implicitly be closed after streaming, regardless of
-   * whether an exception is been thrown or not.
-   *
-   * @param input The input stream.
-   * @param output The output stream.
-   * @return The length of the written bytes.
-   * @throws IOException When an I/O error occurs.
-   */
-  private long stream(InputStream input, OutputStream output) throws IOException {
-    try (ReadableByteChannel inputChannel = Channels.newChannel(input);
-            WritableByteChannel outputChannel = Channels.newChannel(output)) {
-      ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_STREAM_BUFFER_SIZE);
-      long size = 0;
-
-      while (inputChannel.read(buffer) != -1) {
-        buffer.flip();
-        size += outputChannel.write(buffer);
-        buffer.clear();
-      }
-
-      return size;
-    }
-  }
-
-  /**
-   * Returns a substring of the given string value from the given begin index to the given end index as a long. If the
-   * substring is empty, then -1 will be returned
-   *
-   * @param value The string value to return a substring as long for.
-   * @param beginIndex The begin index of the substring to be returned as long.
-   * @param endIndex The end index of the substring to be returned as long.
-   * @return A substring of the given string value as long or -1 if substring is empty.
-   */
-  private static long sublong(String value, int beginIndex, int endIndex) {
-    String substring = value.substring(beginIndex, endIndex);
-    return (substring.length() > 0) ? Long.parseLong(substring) : -1;
-  }
-
-  @Autowired
-  ResourceService resourceService;
-
-  @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.HEAD)
-  public void getHead(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
-          throws Exception {
-    LOGGER.info("HEAD request!");
-    respond(id, extension, request, response, true);
   }
 
   /**
@@ -555,6 +488,30 @@ public class StreamingController {
   }
 
   /**
+   * <p>
+   * Set the cache headers. If the <code>expires</code> argument is larger than 0 seconds, then the following headers
+   * will be set:
+   * <ul>
+   * <li><code>Cache-Control: public,max-age=[expiration time in seconds],must-revalidate</code></li>
+   * <li><code>Expires: [expiration date of now plus expiration time in seconds]</code></li>
+   * </ul>
+   * <p>
+   * Else the method will delegate to {@link #setNoCacheHeaders(HttpServletResponse)}.
+   *
+   * @param response The HTTP servlet response to set the headers on.
+   * @param expires The expire time in seconds (not milliseconds!).
+   */
+  private void setCacheHeaders(HttpServletResponse response, long expires) {
+    if (expires > 0) {
+      response.setHeader("Cache-Control", "public,max-age=" + expires + ",must-revalidate");
+      response.setDateHeader("Expires", System.currentTimeMillis() + SECONDS.toMillis(expires));
+      response.setHeader("Pragma", ""); // Explicitly set pragma to prevent container from overriding it.
+    } else {
+      setNoCacheHeaders(response);
+    }
+  }
+
+  /**
    * Caching, see https://tools.ietf.org/html/rfc7232#section-3.2
    */
   private void setCacheHeaders(HttpServletResponse response, ResourceInfo resourceInfo) {
@@ -589,6 +546,50 @@ public class StreamingController {
     }
 
     return contentType;
+  }
+
+  /**
+   * Returns <code>true</code> if the given string starts with one of the given prefixes.
+   *
+   * @param string The object to be checked if it starts with one of the given prefixes.
+   * @param prefixes The argument list of prefixes to be checked
+   * @return <code>true</code> if the given string starts with one of the given prefixes.
+   * @since 1.4
+   */
+  private boolean startsWithOneOf(String string, String... prefixes) {
+    for (String prefix : prefixes) {
+      if (string.startsWith(prefix)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Stream the given input to the given output via NIO {@link Channels} and a directly allocated NIO
+   * {@link ByteBuffer}. Both the input and output streams will implicitly be closed after streaming, regardless of
+   * whether an exception is been thrown or not.
+   *
+   * @param input The input stream.
+   * @param output The output stream.
+   * @return The length of the written bytes.
+   * @throws IOException When an I/O error occurs.
+   */
+  private long stream(InputStream input, OutputStream output) throws IOException {
+    try (ReadableByteChannel inputChannel = Channels.newChannel(input);
+            WritableByteChannel outputChannel = Channels.newChannel(output)) {
+      ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_STREAM_BUFFER_SIZE);
+      long size = 0;
+
+      while (inputChannel.read(buffer) != -1) {
+        buffer.flip();
+        size += outputChannel.write(buffer);
+        buffer.clear();
+      }
+
+      return size;
+    }
   }
 
   private void writeContent(HttpServletResponse response, Resource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)

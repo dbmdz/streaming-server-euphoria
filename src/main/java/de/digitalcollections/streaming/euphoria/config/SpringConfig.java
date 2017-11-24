@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.webapp.config;
+package de.digitalcollections.streaming.euphoria.config;
 
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 
@@ -17,7 +16,6 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @ComponentScan(basePackages = {"de.digitalcollections.core.config"})
-@Import({SpringConfigWeb.class})
 public class SpringConfig implements EnvironmentAware {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SpringConfig.class);
