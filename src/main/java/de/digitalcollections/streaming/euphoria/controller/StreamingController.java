@@ -157,12 +157,10 @@ public class StreamingController {
     int read;
 
     if (inputSize == length) {
-      LOGGER.
-              info("*** Response: writing FULL RANGE (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
+      LOGGER.debug("*** Response: writing FULL RANGE (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
       stream(input, output);
     } else {
-      LOGGER.
-              info("*** Response: writing partial range (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
+      LOGGER.debug("*** Response: writing partial range (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
       input.skip(start);
       long toRead = length;
 
@@ -292,8 +290,8 @@ public class StreamingController {
   }
 
   @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.GET)
-  public void getStream(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
-          throws Exception {
+  public void getStream(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    LOGGER.info("Stream for resource {}.{} requested.", id, extension);
     respond(id, extension, request, response, false);
   }
 
@@ -322,7 +320,7 @@ public class StreamingController {
       Enumeration<String> headers = request.getHeaders(headerName);
       while (headers.hasMoreElements()) {
         String header = headers.nextElement();
-        LOGGER.info("request header: {} = {}", headerName, header);
+        LOGGER.debug("request header: {} = {}", headerName, header);
       }
     }
   }
@@ -422,8 +420,7 @@ public class StreamingController {
     try {
       resource = getResource(id, extension);
     } catch (ResourceIOException ex) {
-      LOGGER.
-              error("*** Response {}: Error referencing streaming resource with id {} and extension {}", HttpServletResponse.SC_NOT_FOUND, id, extension, ex);
+      LOGGER.warn("*** Response {}: Error referencing streaming resource with id {} and extension {}", HttpServletResponse.SC_NOT_FOUND, id, extension);
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
@@ -431,15 +428,13 @@ public class StreamingController {
     // get resource metadata
     ResourceInfo resourceInfo = new ResourceInfo(id, resource);
     if (resourceInfo.length <= 0) {
-      LOGGER.
-              warn("*** Response {}: Error streaming resource with id {} not found/no size", HttpServletResponse.SC_NOT_FOUND, id);
+      LOGGER.warn("*** Response {}: Error streaming resource with id {} and extension {}: not found/no size", HttpServletResponse.SC_NOT_FOUND, id, extension);
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
 
     if (preconditionFailed(request, resourceInfo)) {
-      LOGGER.
-              warn("*** Response {}: Precondition If-Match/If-Unmodified-Since failed for resource with id {}.", HttpServletResponse.SC_PRECONDITION_FAILED, id);
+      LOGGER.warn("*** Response {}: Precondition If-Match/If-Unmodified-Since failed for resource with id {} and extension {}.", HttpServletResponse.SC_PRECONDITION_FAILED, id, extension);
       response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
       return;
     }
@@ -447,8 +442,7 @@ public class StreamingController {
     setCacheHeaders(response, resourceInfo);
 
     if (notModified(request, resourceInfo)) {
-      LOGGER.
-              info("*** Response {}: 'Not modified'-response for resource with id {}.", HttpServletResponse.SC_NOT_MODIFIED, id);
+      LOGGER.debug("*** Response {}: 'Not modified'-response for resource with id {} and extension {}.", HttpServletResponse.SC_NOT_MODIFIED, id, extension);
       response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
       return;
     }
@@ -457,8 +451,7 @@ public class StreamingController {
 
     if (ranges == null) {
       response.setHeader("Content-Range", "bytes */" + resourceInfo.length);
-      LOGGER.
-              warn("Response {}: Header Range for resource with id {} not satisfiable", HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE, id);
+      LOGGER.warn("Response {}: Header Range for resource with id {} and extension {} not satisfiable", HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE, id, extension);
       response.sendError(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
       return;
     }
@@ -484,7 +477,7 @@ public class StreamingController {
     }
 
     writeContent(response, resource, resourceInfo, ranges, contentType, acceptsGzip);
-    LOGGER.info("*** RESPONSE FINISHED ***");
+    LOGGER.debug("*** RESPONSE FINISHED ***");
   }
 
   /**

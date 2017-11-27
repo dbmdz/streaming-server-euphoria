@@ -51,28 +51,17 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <version.aspectjweaver>1.8.9</version.aspectjweaver>
-    <version.commons-io>2.5</version.commons-io>
     <version.dc-core-backend-file>2.0.0</version.dc-core-backend-file>
     <version.dc-core-business>2.0.0</version.dc-core-business>
-    <version.digitalcollections-commons>1.2.2</version.digitalcollections-commons>
-    <version.digitalcollections-core>1.2.5</version.digitalcollections-core>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
-    <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
-    <version.jetty-maven-plugin>9.3.3.v20150827</version.jetty-maven-plugin>
-    <version.joda-time>2.5</version.joda-time>
     <version.maven-compiler-plugin>3.7.0</version.maven-compiler-plugin>
     <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
     <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
     <version.maven-resources-plugin>3.0.2</version.maven-resources-plugin>
     <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
-    <version.maven-war-plugin>2.6</version.maven-war-plugin>
     <version.nexus-staging-maven-plugin>1.6.7</version.nexus-staging-maven-plugin>
-    <version.slf4j>1.7.21</version.slf4j>
-    <version.springframework>4.3.6.RELEASE</version.springframework>
+    <version.spring-boot>1.5.8.RELEASE</version.spring-boot>
     <version.thymeleaf>3.0.7.RELEASE</version.thymeleaf>
-    <version.thymeleaf-extras-conditionalcomments>2.1.2.RELEASE</version.thymeleaf-extras-conditionalcomments>
-    <version.thymeleaf-extras-data-attribute>1.3</version.thymeleaf-extras-data-attribute>
     <version.thymeleaf-layout-dialect>2.2.2</version.thymeleaf-layout-dialect>
     <version.versions-maven-plugin>2.3</version.versions-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
@@ -88,7 +77,7 @@
         <!-- Import dependency management from Spring Boot -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>1.5.8.RELEASE</version>
+        <version>${version.spring-boot}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -111,6 +100,11 @@
       <groupId>nz.net.ultraq.thymeleaf</groupId>
       <artifactId>thymeleaf-layout-dialect</artifactId>
       <version>${version.thymeleaf-layout-dialect}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -151,70 +145,6 @@
       <groupId>org.webjars</groupId>
       <artifactId>hal-browser</artifactId>
     </dependency>
-    
-<!--    <dependency>
-      <groupId>com.github.mxab.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-data-attribute</artifactId>
-      <version>${version.thymeleaf-extras-data-attribute}</version>
-    </dependency>-->
-<!--    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${version.commons-io}</version>
-    </dependency>-->
-<!--    <dependency>
-      <groupId>de.digitalcollections</groupId>
-      <artifactId>digitalcollections-core-backend-impl-file</artifactId>
-      <version>${version.digitalcollections-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>de.digitalcollections</groupId>
-      <artifactId>digitalcollections-core-business-api</artifactId>
-      <version>${version.digitalcollections-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>de.digitalcollections</groupId>
-      <artifactId>digitalcollections-core-business-impl</artifactId>
-      <version>${version.digitalcollections-core}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>de.digitalcollections.commons</groupId>
-      <artifactId>digitalcollections-commons-springmvc</artifactId>
-      <version>${version.digitalcollections-commons}</version>
-    </dependency>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>${version.joda-time}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>${version.aspectjweaver}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${version.slf4j}</version>
-    </dependency>-->
-<!--    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${version.springframework}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${version.springframework}</version>
-    </dependency>-->
-<!--    <dependency>
-      <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-conditionalcomments</artifactId>
-      <version>${version.thymeleaf-extras-conditionalcomments}</version>
-    </dependency>-->
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>bootstrap</artifactId>
@@ -298,7 +228,7 @@
           <useDefaultDelimiters>false</useDefaultDelimiters>
         </configuration>
       </plugin>
-<!--      <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>${version.maven-source-plugin}</version>
@@ -310,7 +240,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
@@ -354,7 +284,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.5.8.RELEASE</version>
+        <version>${version.spring-boot}</version>
         <executions>
           <execution>
             <goals>

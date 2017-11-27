@@ -2,6 +2,8 @@ package de.digitalcollections.streaming.euphoria.config;
 
 import java.util.Locale;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -11,18 +13,20 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class SpringConfigWeb extends WebMvcConfigurerAdapter {
+public class SpringConfigWeb extends WebMvcConfigurerAdapter implements InitializingBean {
 
-//  @Autowired
-//  private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-//
-//  @PostConstruct
-//  public void init() {
-//    requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
-//  }
+  @Autowired
+  private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
+  }
+
   /**
    * Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the
    * ${symbol_dollar}{webappRoot}/resources directory
