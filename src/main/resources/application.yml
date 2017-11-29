@@ -16,7 +16,7 @@ info:
 
 management:
   context-path: '/monitoring'
-  port: 9001
+  port: 9011
   security:
     enabled: true
 #    roles: SUPERUSER
@@ -31,8 +31,8 @@ security:
     password: secret
 
 server:
-  context-path: "/media"
-  port: 8080
+#  context-path: "/media"
+  port: 9010
   server-header: "@project.name@ v@project.version@"
 
 spring:
@@ -45,8 +45,12 @@ spring:
 ---
 
 management:
+  port: 9001
   security:
     enabled: true
+
+server:
+  port: 8080
 
 spring:
   profiles: PROD
