@@ -54,6 +54,7 @@
     <version.dc-core-backend-file>2.0.0</version.dc-core-backend-file>
     <version.dc-core-business>2.0.0</version.dc-core-business>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
+    <version.logstash-logback-encoder>4.7</version.logstash-logback-encoder>
     <version.maven-compiler-plugin>3.7.0</version.maven-compiler-plugin>
     <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
     <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
@@ -95,6 +96,11 @@
       <groupId>de.digitalcollections.core</groupId>
       <artifactId>dc-core-business</artifactId>
       <version>${version.dc-core-business}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>${version.logstash-logback-encoder}</version>
     </dependency>
     <dependency>
       <groupId>nz.net.ultraq.thymeleaf</groupId>
