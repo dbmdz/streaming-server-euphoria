@@ -54,16 +54,14 @@
     <version.dc-core-backend-file>2.0.0</version.dc-core-backend-file>
     <version.dc-core-business>2.0.0</version.dc-core-business>
     <version.jacoco-maven-plugin>0.7.7.201606060606</version.jacoco-maven-plugin>
-    <version.logstash-logback-encoder>4.7</version.logstash-logback-encoder>
+    <version.logstash-logback-encoder>5.1</version.logstash-logback-encoder>
     <version.maven-compiler-plugin>3.7.0</version.maven-compiler-plugin>
     <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
     <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
     <version.maven-resources-plugin>3.0.2</version.maven-resources-plugin>
     <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.7</version.nexus-staging-maven-plugin>
-    <version.spring-boot>1.5.8.RELEASE</version.spring-boot>
-    <version.thymeleaf>3.0.7.RELEASE</version.thymeleaf>
-    <version.thymeleaf-layout-dialect>2.2.2</version.thymeleaf-layout-dialect>
+    <version.spring-boot>2.0.1.RELEASE</version.spring-boot>
     <version.versions-maven-plugin>2.3</version.versions-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
@@ -105,7 +103,6 @@
     <dependency>
       <groupId>nz.net.ultraq.thymeleaf</groupId>
       <artifactId>thymeleaf-layout-dialect</artifactId>
-      <version>${version.thymeleaf-layout-dialect}</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
@@ -136,16 +133,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-      <version>${version.thymeleaf}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf-spring4</artifactId>
-      <version>${version.thymeleaf}</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
