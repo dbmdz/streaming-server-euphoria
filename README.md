@@ -18,39 +18,6 @@
 ## Requirements
 
 * Java 8: You will need the Java Runtime Environment (JRE) version 1.8 or higher. At a command line, check your Java version with "java -version".
-* Apache Tomcat 8.0
-
-## Apache Tomcat
-
-* Homepage: http://tomcat.apache.org/
-* Version: 8.0.35
-
-### Installation
-
-Download Tomcat 8 and decompress it to target directory.
-
-```shell
-$ cd /opt
-$ sudo wget http://mirror.synyx.de/apache/tomcat/tomcat-8/v8.0.35/bin/apache-tomcat-8.0.35.tar.gz
-$ sudo tar -xvfz apache-tomcat-8.0.35.tar.gz
-```
-
-### Usage
-
-Start Tomcat:
-
-```shell
-$ cd /opt/tomcat/apache-tomcat-8.0.35
-$ sudo bin/startup.sh
-```
-
-Stop Tomcat:
-```shell
-$ cd /opt/tomcat/apache-tomcat-8.0.35
-$ sudo bin/shutdown.sh
-```
-
-## Euphoria webapp
 
 ### Installation
 
@@ -59,13 +26,7 @@ Build the webapp locally and copy it to server:
 ```shell
 $ cd <source_directory_euphoria>
 $ mvn clean install
-$ scp target/streaming-server-euphoria.war <user>@<server>:/tmp
-```
-
-Deploy Bookshelf WAR into Tomcat:
-
-```shell
-$ mv /tmp/streaming-server-euphoria.war /opt/tomcat/apache-tomcat-8.0.35/webapps
+$ scp target/streaming-server-euphoria-2.0.0-SNAPSHOT.jar <user>@<server>:/local/bin
 ```
 
 ### Configuration
@@ -75,16 +36,11 @@ The resolving rules (one rule per line) are configurable with regular expression
 
 ### Usage
 
-* To run streaming-server-euphoria run Tomcat.
+* To run streaming-server-euphoria, e.g.:
 
 ```shell
-# /opt/apache-tomcat-8.0.35/bin/startup.sh
+/usr/bin/java -XX:+ExitOnOutOfMemoryError -XX:+CrashOnOutOfMemoryError -XX:MaxDirectMemorySize=8G -Xmx4G -jar /local/bin/streaming-server-euphoria-2.0.0-SNAPSHOT.jar --spring.profiles.active=PROD --server.port=8080 --server.servlet.context-path=/media --management.server.port=9001 --logging.config=/local/config/euphoria/logback-spring.xml
 ```
 
-Open webapp in browser: http://localhost:10000/
+Open webapp in browser (use configured 'server.port' and 'server.servlet.context-path'): http://localhost:8080/media
 
-* To stop streaming-server-euphoria stop the Tomcat:
-
-```shell
-# /opt/apache-tomcat-8.0.35/bin/shutdown.sh
-```
