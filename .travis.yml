@@ -1,20 +1,23 @@
 language: java
 jdk:
 - oraclejdk8
+
 before_script:
 - if [ ! -z "$TRAVIS_TAG" ]; then mvn versions:set -DnewVersion=$TRAVIS_TAG; fi
+
 script:
 - mvn clean install
+
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+
 deploy:
   provider: releases
   api_key:
-    secure: c7VxNuGyN4J8BKv3xJLbGpeYOWq9BI1sl8aFaD8OICpAWlVH396kfjGFq0nvbvLBgxkjGTIrkCGtxRdsf0/nxFq3XYEEqxxivOKsjI132Ymf2Ji0TC0swMDsVbEezlCDXB3wieXn85fZ5pQdQwh4UgZ1FR1G0oZjy7o483iN0uKeMAHc/x6Ejhd3yAtj1mH8ykt6hkNcDknyXGgE1dSKWaY24JwD5DMskGIbwb3PdeKgDx13KJrGOHKe+wqR0Y60YDpaRrw029VtlJ29wpJieudV23UG8iS1+yxPr0oFBlwhUGrYhnEhNttSMI9ES5qHAfC1J2AWjPn9U9hdHIQlrlFLS+hwp1VDX+5LTnYVm5HWXEkMZ/hNfTOL1zVAp9c1L95hS02C5fNtyV1q2avfbJLBDWU+z6IGYKxpmKQsOu14jwJ+hqSIK6EQxcrcBc5HZeyctAVZjSgMTLips1VY9ux86qRyeMEkHNWcB42EgI4/lEAA8/JHP7xem+XtWzkohiO3mDICK3q7Gf3u0z5khpemB+rzqalrLUJnHFT8abv8GFo170/BLACsD1ZXwDm01mRmg21/VQCFKo6UxgI7VT8b9AlJX7RzZG6i3yoklogZDW+oUIizmvfUu1h5arI/MQyMfghrJRzp/jw+C/vRLqtkTWRnqOTtXhRR7oFaPTo=
+    secure: 1Dl8NUihtqSSq1k8k+nDP4gjKDdMcVrXve3+wpb7VJ7leAVMKNMocZXXKukQ3pUhacrL6Tmux1M74Ypm8/juMEztPNANPyOzDG0fvb4fzSXBYXbd2YYRJLR0ulW8RY0eW6S7/zKxFArCslUnz+YG2dr6AoKA1eld9IHROQ3DwOBBhFZrflja8LbDSnmXJMxAxTlxxs+iC1qRCDXSN9qzO7LiyNdo8XjER9KSsx4uhty1E5nj9ha2OIR/tbqKEe7GflFt42M/hO2gp2msSBk9ESnq3fuIE25qdVwbqh1fZ1QKDBWoZ3ulBVfa6n5b3hn6fVwotMHW2lFJ+r2T2FuLjfO6Fqpzw0YstphHSv4r2agsjqZhxd5XJjysAMmM9UUuNC7vJi0u9jlAR6Yl8Z/tP//z+VJTrDQw7G9ppP5lMu16sVocMCefftPL6R/AP7plIVITkYZNioxX926rQofkgPVIsUTYTBP0nDIWwaZ65pOHIn0wiaPJaLNWpjbnsjPMKNJH0d9piNaz4WdhBLLWgY+WBRbhVFlV8esTPOFmkKPM96KQf5Eh2v4ne+m7kOZx/P0fG+6MeoMFNr/zE3S6qJIPJMwrMp+/uGNmDwA9K8sQGbZDpAB2AM/4+8nxX3in7QXKOHLiMAYrML/+c5xrTWXeNTpAtR8D+G1H4PDyo+I=
   file_glob: true
   file:
     - "**/target/*.jar"
-    - "**/target/*.war"
   skip_cleanup: true
   on:
     tags: true
