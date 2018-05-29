@@ -9,6 +9,7 @@ info:
       groupId: @project.groupId@
       artifactId: @project.artifactId@
       version: @project.version@
+      buildDetails: '@versionName@'
 
 management:
   endpoints:
@@ -20,8 +21,6 @@ management:
     port: 9011
 
 server:
-#  servlet:
-#    context-path: "/media"
   port: 9010
   server-header: "@project.name@ v@project.version@"
 
