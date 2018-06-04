@@ -1,5 +1,5 @@
 body {
-  padding-top: 75px;
+  padding-top: 65px;
 }
 
 .navbar {
@@ -18,7 +18,7 @@ body {
 }
 
 .jumbotron {
-  margin-bottom: 25px;
+  margin-top: 10px;
   text-align: center;
 }
 

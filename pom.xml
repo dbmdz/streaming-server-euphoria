@@ -7,7 +7,7 @@
   <description> Euphoria is a streaming server for video, audio and other files.</description>
   <groupId>de.digitalcollections</groupId>
   <artifactId>streaming-server-euphoria</artifactId>
-  <version>2.1.0</version>
+  <version>2.1.1</version>
   <packaging>jar</packaging>
 
   <url>https://github.com/dbmdz/streaming-server-euphoria</url>
