@@ -19,7 +19,7 @@ import org.springframework.core.env.Environment;
   "de.digitalcollections.commons.springboot.actuator",
   "de.digitalcollections.commons.springboot.contributor",
   "de.digitalcollections.commons.springboot.monitoring",
-  "de.digitalcollections.core.config"
+  "de.digitalcollections.commons.file.config"
 })
 public class SpringConfig implements EnvironmentAware {
 
