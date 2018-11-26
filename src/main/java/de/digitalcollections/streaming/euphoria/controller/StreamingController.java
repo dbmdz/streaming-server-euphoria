@@ -1,10 +1,10 @@
 package de.digitalcollections.streaming.euphoria.controller;
 
-import de.digitalcollections.core.business.api.ResourceService;
-import de.digitalcollections.core.model.api.MimeType;
-import de.digitalcollections.core.model.api.resource.Resource;
-import de.digitalcollections.core.model.api.resource.enums.ResourcePersistenceType;
-import de.digitalcollections.core.model.api.resource.exceptions.ResourceIOException;
+import de.digitalcollections.commons.file.business.api.FileResourceService;
+import de.digitalcollections.model.api.identifiable.resource.FileResource;
+import de.digitalcollections.model.api.identifiable.resource.MimeType;
+import de.digitalcollections.model.api.identifiable.resource.enums.FileResourcePersistenceType;
+import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -17,6 +17,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -139,7 +140,7 @@ public class StreamingController {
   }
 
   @Autowired
-  ResourceService resourceService;
+  FileResourceService resourceService;
 
   /**
    * Copy the given byte range of the given input to the given output.
@@ -284,8 +285,8 @@ public class StreamingController {
     return ranges;
   }
 
-  private Resource getResource(String id, String extension) throws ResourceIOException {
-    Resource resource = resourceService.get(id, ResourcePersistenceType.REFERENCED, extension);
+  private FileResource getResource(String id, String extension) throws ResourceIOException {
+    FileResource resource = resourceService.get(id, FileResourcePersistenceType.REFERENCED, extension);
     return resource;
   }
 
@@ -416,7 +417,7 @@ public class StreamingController {
     response.reset();
 
     // try to get access to resource
-    Resource resource;
+    FileResource resource;
     try {
       resource = getResource(id, extension);
     } catch (ResourceIOException ex) {
@@ -585,7 +586,7 @@ public class StreamingController {
     }
   }
 
-  private void writeContent(HttpServletResponse response, Resource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
+  private void writeContent(HttpServletResponse response, FileResource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
           throws IOException {
     OutputStream output = null;
     InputStream datastream = null;
@@ -639,10 +640,10 @@ public class StreamingController {
     private final long lastModified;
     private final long length;
 
-    private ResourceInfo(String id, Resource resource) {
-      length = resource.getSize();
+    private ResourceInfo(String id, FileResource resource) {
+      length = resource.getSizeInBytes();
       fileName = resource.getFilename();
-      lastModified = resource.getLastModified();
+      lastModified = resource.getLastModified().toEpochSecond(ZoneOffset.UTC);
       fileExtension = FilenameUtils.getExtension(fileName);
       contentType = MimeType.fromExtension(fileExtension).getTypeName();
       // unique identifier for resource (with timestamp and size):
