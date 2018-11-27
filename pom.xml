@@ -69,7 +69,6 @@
     <version.maven-resources-plugin>3.0.2</version.maven-resources-plugin>
     <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.7</version.nexus-staging-maven-plugin>
-    <version.versions-maven-plugin>2.3</version.versions-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
@@ -185,9 +184,6 @@
         <version>${version.maven-compiler-plugin}</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -230,7 +226,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>${version.versions-maven-plugin}</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
