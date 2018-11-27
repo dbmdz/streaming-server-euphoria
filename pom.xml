@@ -26,6 +26,11 @@
   </licenses>
   <developers>
     <developer>
+      <name>Marcus Bitzl</name>
+      <email>marcus.bitzl@bsb-muenchen.de</email>
+      <id>bitzl</id>
+    </developer>
+    <developer>
       <name>Ralf Eichinger</name>
       <email>ralf.eichinger@bsb-muenchen.de</email>
       <id>datazuul</id>
@@ -34,6 +39,11 @@
       <name>Matthias Lindinger</name>
       <email>matthias.lindinger@bsb-muenchen.de</email>
       <id>morpheus-87</id>
+    </developer>
+    <developer>
+      <name>Stefan Schweter</name>
+      <email>stefan.schweter@bsb-muenchen.de</email>
+      <id>stefan-it</id>
     </developer>
   </developers>
   <ciManagement>
