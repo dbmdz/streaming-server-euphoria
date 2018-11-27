@@ -3,13 +3,19 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <name>DigitalCollections: Euphoria Streaming Server</name>
-  <description> Euphoria is a streaming server for video, audio and other files.</description>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.0.RELEASE</version>
+  </parent>
+
   <groupId>de.digitalcollections</groupId>
   <artifactId>streaming-server-euphoria</artifactId>
   <version>2.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <name>DigitalCollections: Euphoria Streaming Server</name>
+  <description>Euphoria is a streaming server for video, audio and other files.</description>
   <url>https://github.com/dbmdz/streaming-server-euphoria</url>
   <licenses>
     <license>
@@ -63,7 +69,6 @@
     <version.maven-resources-plugin>3.0.2</version.maven-resources-plugin>
     <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.7</version.nexus-staging-maven-plugin>
-    <version.spring-boot>2.0.2.RELEASE</version.spring-boot>
     <version.versions-maven-plugin>2.3</version.versions-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
@@ -72,19 +77,6 @@
     <version.webjar-respond>1.4.2</version.webjar-respond>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <!-- Import dependency management from Spring Boot -->
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${version.spring-boot}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
   <dependencies>
     <dependency>
       <groupId>de.digitalcollections.commons</groupId>
@@ -278,7 +270,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${version.spring-boot}</version>
         <executions>
           <execution>
             <goals>
