@@ -5,6 +5,7 @@ import de.digitalcollections.model.api.identifiable.resource.FileResource;
 import de.digitalcollections.model.api.identifiable.resource.MimeType;
 import de.digitalcollections.model.api.identifiable.resource.enums.FileResourcePersistenceType;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
+import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceNotFoundException;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -285,7 +286,7 @@ public class StreamingController {
     return ranges;
   }
 
-  private FileResource getResource(String id, String extension) throws ResourceIOException {
+  private FileResource getResource(String id, String extension) throws ResourceIOException, ResourceNotFoundException {
     FileResource resource = resourceService.get(id, FileResourcePersistenceType.REFERENCED, extension);
     return resource;
   }
@@ -411,7 +412,7 @@ public class StreamingController {
    * @throws IOException If something fails at I/O level.
    */
   private void respond(String id, String extension, HttpServletRequest request, HttpServletResponse response, boolean head)
-          throws IOException {
+          throws ResourceNotFoundException, IOException {
     logRequestHeaders(request);
 
     response.reset();
@@ -587,7 +588,7 @@ public class StreamingController {
   }
 
   private void writeContent(HttpServletResponse response, FileResource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
-          throws IOException {
+          throws ResourceNotFoundException, IOException {
     OutputStream output = null;
     InputStream datastream = null;
     BufferedInputStream input = null;
