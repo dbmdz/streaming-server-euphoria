@@ -3,7 +3,7 @@
 [![Javadocs](https://javadoc.io/badge/de.digitalcollections/streaming-server-euphoria.svg)](https://javadoc.io/doc/de.digitalcollections/streaming-server-euphoria)
 [![Build Status](https://img.shields.io/travis/dbmdz/streaming-server-euphoria/master.svg)](https://travis-ci.org/dbmdz/streaming-server-euphoria)
 [![Codecov](https://img.shields.io/codecov/c/github/dbmdz/streaming-server-euphoria/master.svg)](https://codecov.io/gh/dbmdz/streaming-server-euphoria)
-[![MIT License](https://img.shields.io/github/license/dbmdz/streaming-server-euphoria.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/dbmdz/streaming-server-euphoria.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/release/dbmdz/streaming-server-euphoria.svg)](https://github.com/dbmdz/streaming-server-euphoria/releases)
 [![Maven Central](https://img.shields.io/maven-central/v/de.digitalcollections/streaming-server-euphoria.svg)](https://search.maven.org/search?q=a:streaming-server-euphoria)
 
