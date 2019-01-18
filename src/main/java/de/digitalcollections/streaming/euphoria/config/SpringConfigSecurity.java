@@ -28,12 +28,12 @@ public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .requestMatchers(EndpointRequest.to("health", "info", "version")).permitAll()
-            .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
-            .antMatchers("/**").permitAll()
-            .and()
-            .httpBasic();
+      .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+      .requestMatchers(EndpointRequest.to("health", "info", "version")).permitAll()
+      .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+      .antMatchers("/**").permitAll()
+      .and()
+      .httpBasic();
   }
 
   private PasswordEncoder passwordEncoderDummy() {

@@ -85,8 +85,8 @@ public class StreamingController {
     String[] acceptValues = acceptHeader.split("\\s*(,|;)\\s*");
     Arrays.sort(acceptValues);
     return Arrays.binarySearch(acceptValues, toAccept) > -1
-            || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
-            || Arrays.binarySearch(acceptValues, "*/*") > -1;
+      || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
+      || Arrays.binarySearch(acceptValues, "*/*") > -1;
   }
 
   /**
@@ -116,7 +116,7 @@ public class StreamingController {
     String[] matchValues = matchHeader.split("\\s*,\\s*");
     Arrays.sort(matchValues);
     return Arrays.binarySearch(matchValues, toMatch) > -1
-            || Arrays.binarySearch(matchValues, "*") > -1;
+      || Arrays.binarySearch(matchValues, "*") > -1;
   }
 
   /**
@@ -154,7 +154,7 @@ public class StreamingController {
    * @throws IOException If something fails at I/O level.
    */
   private void copy(InputStream input, OutputStream output, long inputSize, long start, long length)
-          throws IOException {
+    throws IOException {
     byte[] buffer = new byte[DEFAULT_STREAM_BUFFER_SIZE];
     int read;
 
@@ -196,12 +196,12 @@ public class StreamingController {
     }
 
     return encodeURL(string)
-            .replace("+", "%20")
-            .replace("%21", "!")
-            .replace("%27", "'")
-            .replace("%28", "(")
-            .replace("%29", ")")
-            .replace("%7E", "~");
+      .replace("+", "%20")
+      .replace("%21", "!")
+      .replace("%27", "'")
+      .replace("%28", "(")
+      .replace("%29", ")")
+      .replace("%7E", "~");
   }
 
   /**
@@ -226,7 +226,7 @@ public class StreamingController {
 
   @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.HEAD)
   public void getHead(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
-          throws Exception {
+    throws Exception {
     LOGGER.info("HEAD request!");
     respond(id, extension, request, response, true);
   }
@@ -307,8 +307,7 @@ public class StreamingController {
    *
    * @param request The involved HTTP servlet request.
    * @param contentType The content type of the involved file.
-   * @return <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet request and content
-   * type.
+   * @return <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet request and content type.
    */
   private boolean isAttachment(HttpServletRequest request, String contentType) {
     String accept = request.getHeader("Accept");
@@ -412,7 +411,7 @@ public class StreamingController {
    * @throws IOException If something fails at I/O level.
    */
   private void respond(String id, String extension, HttpServletRequest request, HttpServletResponse response, boolean head)
-          throws ResourceNotFoundException, IOException {
+    throws ResourceNotFoundException, IOException {
     logRequestHeaders(request);
 
     response.reset();
@@ -573,7 +572,7 @@ public class StreamingController {
    */
   private long stream(InputStream input, OutputStream output) throws IOException {
     try (ReadableByteChannel inputChannel = Channels.newChannel(input);
-            WritableByteChannel outputChannel = Channels.newChannel(output)) {
+      WritableByteChannel outputChannel = Channels.newChannel(output)) {
       ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_STREAM_BUFFER_SIZE);
       long size = 0;
 
@@ -588,7 +587,7 @@ public class StreamingController {
   }
 
   private void writeContent(HttpServletResponse response, FileResource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
-          throws ResourceNotFoundException, IOException {
+    throws ResourceNotFoundException, IOException {
     OutputStream output = null;
     InputStream datastream = null;
     BufferedInputStream input = null;
