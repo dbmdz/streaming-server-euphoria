@@ -656,7 +656,7 @@ public class StreamingController {
   /**
    * This class represents a byte range.
    */
-  protected class Range {
+  protected static class Range {
 
     long start;
     long end;
