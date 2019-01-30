@@ -81,7 +81,7 @@
     <version.maven-source-plugin>3.0.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
     <version.spotbugs>3.1.9</version.spotbugs>
-    <version.spotbugs-maven-plugin>3.1.8</version.spotbugs-maven-plugin>
+    <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
@@ -208,6 +208,13 @@
             <version>${version.spotbugs}</version>
           </dependency>
         </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
