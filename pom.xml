@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.1.RELEASE</version>
+    <version>2.1.2.RELEASE</version>
   </parent>
 
   <groupId>de.digitalcollections</groupId>
@@ -70,9 +70,9 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
 
-    <version.dc-commons>3.0.1-SNAPSHOT</version.dc-commons>
-    <version.jacoco-maven-plugin>0.8.2</version.jacoco-maven-plugin>
-    <version.logstash-logback-encoder>5.2</version.logstash-logback-encoder>
+    <version.dc-commons>3.0.2-SNAPSHOT</version.dc-commons>
+    <version.jacoco-maven-plugin>0.8.3</version.jacoco-maven-plugin>
+    <version.logstash-logback-encoder>5.3</version.logstash-logback-encoder>
     <version.maven-checkstyle-plugin>3.0.0</version.maven-checkstyle-plugin>
     <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
     <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
@@ -80,6 +80,8 @@
     <version.maven-resources-plugin>3.1.0</version.maven-resources-plugin>
     <version.maven-source-plugin>3.0.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
+    <version.spotbugs>3.1.11</version.spotbugs>
+    <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
@@ -88,6 +90,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>${version.spotbugs}</version>
+    </dependency>
     <dependency>
       <groupId>de.digitalcollections.commons</groupId>
       <artifactId>dc-commons-file</artifactId>
@@ -139,10 +146,6 @@
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>hal-browser</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
       <artifactId>bootstrap</artifactId>
       <version>${version.webjar-bootstrap}</version>
       <exclusions>
@@ -151,6 +154,10 @@
           <artifactId>jquery</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>hal-browser</artifactId>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
@@ -189,6 +196,26 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${version.spotbugs-maven-plugin}</version>
+        <dependencies>
+          <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+          <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs</artifactId>
+            <version>${version.spotbugs}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
