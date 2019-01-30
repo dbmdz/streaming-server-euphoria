@@ -6,6 +6,7 @@ import de.digitalcollections.model.api.identifiable.resource.MimeType;
 import de.digitalcollections.model.api.identifiable.resource.enums.FileResourcePersistenceType;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceNotFoundException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -153,6 +154,7 @@ public class StreamingController {
    * @param length Length of the byte range.
    * @throws IOException If something fails at I/O level.
    */
+  @SuppressFBWarnings(value = "SR_NOT_CHECKED", justification = "Return check of input.skip() is done later in while-loop and used as terminating loop")
   private void copy(InputStream input, OutputStream output, long inputSize, long start, long length)
     throws IOException {
     byte[] buffer = new byte[DEFAULT_STREAM_BUFFER_SIZE];
@@ -570,6 +572,7 @@ public class StreamingController {
    * @return The length of the written bytes.
    * @throws IOException When an I/O error occurs.
    */
+  @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE", justification = ".read() function in while-loop needs boundary check to terminate loop")
   private long stream(InputStream input, OutputStream output) throws IOException {
     try (ReadableByteChannel inputChannel = Channels.newChannel(input);
       WritableByteChannel outputChannel = Channels.newChannel(output)) {
