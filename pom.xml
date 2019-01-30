@@ -82,7 +82,7 @@
     <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
     <version.spotbugs>3.1.11</version.spotbugs>
     <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
-    <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
+    <version.webjar-bootstrap>4.2.1</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
     <version.webjar-jquery>1.11.3</version.webjar-jquery>
@@ -146,17 +146,6 @@
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>${version.webjar-bootstrap}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.webjars</groupId>
-          <artifactId>jquery</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
       <artifactId>hal-browser</artifactId>
     </dependency>
     <dependency>
@@ -178,6 +167,17 @@
       <groupId>org.webjars.bower</groupId>
       <artifactId>ie10-viewport-bug-workaround</artifactId>
       <version>${version.webjar-ie10-viewport-bug-workaround}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>${version.webjar-bootstrap}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.webjars</groupId>
+          <artifactId>jquery</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
