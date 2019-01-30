@@ -80,7 +80,7 @@
     <version.maven-resources-plugin>3.1.0</version.maven-resources-plugin>
     <version.maven-source-plugin>3.0.1</version.maven-source-plugin>
     <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
-    <version.spotbugs>3.1.9</version.spotbugs>
+    <version.spotbugs>3.1.11</version.spotbugs>
     <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
     <version.webjar-bootstrap>3.3.7</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
