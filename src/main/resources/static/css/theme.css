@@ -1,55 +1,18 @@
 body {
-  padding-top: 65px;
+  padding-top: 80px;
 }
 
 .navbar {
-  background-color: white;
   border-bottom: solid 1px #e5e5e5;
   min-height: 45px;
 }
 
 .navbar-brand.logo > img {
   height: 40px;
-  margin-top: -10px;
-}
-
-.navbar .navbar-right {
-  margin-right: 0;
-}
-
-.jumbotron {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.theme-showcase > p > .btn {
-  margin: 5px 0;
-}
-
-.theme-showcase .navbar .container {
-  width: auto;
-}
-
-.panel .table {
-  margin-bottom: 0;
 }
 
 footer {
-  position: absolute;
+  border-top: solid 1px #aaa;
   bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 40px;
-  background-color: #f5f5f5;
-
-  border-top: solid 1px #AAA;
-  color: #777;
-  padding-top: 10px;
-  text-align: center;
+  position: fixed;
 }
