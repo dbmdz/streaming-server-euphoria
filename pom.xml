@@ -9,13 +9,14 @@
     <version>2.1.2.RELEASE</version>
   </parent>
 
+  <name>DigitalCollections: Euphoria Streaming Server</name>
+  <description>Euphoria is a streaming server for video, audio and other files.</description>
+
   <groupId>de.digitalcollections</groupId>
   <artifactId>streaming-server-euphoria</artifactId>
   <version>2.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>DigitalCollections: Euphoria Streaming Server</name>
-  <description>Euphoria is a streaming server for video, audio and other files.</description>
   <url>https://github.com/dbmdz/streaming-server-euphoria</url>
   <licenses>
     <license>
