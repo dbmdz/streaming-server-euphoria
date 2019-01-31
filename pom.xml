@@ -71,7 +71,7 @@
     <timestamp>${maven.build.timestamp}</timestamp>
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
 
-    <version.dc-commons>3.0.2-SNAPSHOT</version.dc-commons>
+    <version.dc-commons>3.0.1</version.dc-commons>
     <version.jacoco-maven-plugin>0.8.3</version.jacoco-maven-plugin>
     <version.javamelody>1.75.0</version.javamelody>
     <version.logstash-logback-encoder>5.3</version.logstash-logback-encoder>
