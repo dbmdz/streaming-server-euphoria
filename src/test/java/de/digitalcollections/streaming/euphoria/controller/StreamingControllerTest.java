@@ -9,10 +9,10 @@ public class StreamingControllerTest {
 
   @Test
   public void testRange() {
-    Range simple_range = new Range(1, 10);
+    Range simpleRange = new Range(1, 10);
 
     long expectedLength = 10;
-    long actualLength = simple_range.length;
+    long actualLength = simpleRange.length;
 
     assertThat(actualLength).isEqualTo(expectedLength);
   }
