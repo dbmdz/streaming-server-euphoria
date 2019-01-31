@@ -62,31 +62,31 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <timestamp>${maven.build.timestamp}</timestamp>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
 
     <version.dc-commons>3.0.2-SNAPSHOT</version.dc-commons>
     <version.jacoco-maven-plugin>0.8.3</version.jacoco-maven-plugin>
+    <version.javamelody>1.75.0</version.javamelody>
     <version.logstash-logback-encoder>5.3</version.logstash-logback-encoder>
-    <version.maven-checkstyle-plugin>3.0.0</version.maven-checkstyle-plugin>
-    <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
-    <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
-    <version.maven-javadoc-plugin>3.0.1</version.maven-javadoc-plugin>
-    <version.maven-resources-plugin>3.1.0</version.maven-resources-plugin>
-    <version.maven-source-plugin>3.0.1</version.maven-source-plugin>
-    <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
     <version.spotbugs>3.1.11</version.spotbugs>
-    <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
     <version.webjar-bootstrap>4.2.1</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
     <version.webjar-jquery>3.3.1</version.webjar-jquery>
     <version.webjar-respond>1.4.2</version.webjar-respond>
+
+    <!-- plugins -->
+    <version.jacoco-maven-plugin>0.8.2</version.jacoco-maven-plugin>
+    <version.maven-checkstyle-plugin>3.0.0</version.maven-checkstyle-plugin>
+    <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
+    <version.nexus-staging-maven-plugin>1.6.8</version.nexus-staging-maven-plugin>
+    <version.spotbugs-maven-plugin>3.1.10</version.spotbugs-maven-plugin>
   </properties>
 
   <dependencies>
@@ -106,6 +106,24 @@
       <version>${version.dc-commons}</version>
     </dependency>
     <dependency>
+      <groupId>de.digitalcollections.commons</groupId>
+      <artifactId>dc-commons-springmvc</artifactId>
+      <version>${version.dc-commons}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.bull.javamelody</groupId>
+      <artifactId>javamelody-spring-boot-starter</artifactId>
+      <version>${version.javamelody}</version>
+    </dependency>
+    <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
       <version>${version.logstash-logback-encoder}</version>
@@ -117,6 +135,11 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jolokia</groupId>
+      <artifactId>jolokia-core</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -256,7 +279,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${version.maven-compiler-plugin}</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
         </configuration>
@@ -269,7 +291,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${version.maven-javadoc-plugin}</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -282,7 +303,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>${version.maven-resources-plugin}</version>
         <configuration>
           <delimiters>
             <delimiter>@</delimiter>
@@ -293,7 +313,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${version.maven-source-plugin}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -352,12 +371,35 @@
         <executions>
           <execution>
             <goals>
+              <goal>build-info</goal>
               <goal>repackage</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
           <classifier>exec</classifier>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>validate-the-git-infos</id>
+            <goals>
+              <goal>validateRevision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <dotGitDirectory>${project.basedir}/../../.git</dotGitDirectory>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
         </configuration>
       </plugin>
     </plugins>

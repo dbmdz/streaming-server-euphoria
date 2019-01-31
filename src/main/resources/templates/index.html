@@ -7,7 +7,7 @@
 
       <div class="jumbotron mt-3 text-center">
         <h1 class="display-4">Euphoria Streaming Server</h1>
-        <p class="lead">Use below forms to view videos or play audios provided by this server.</p>
+        <p class="lead" th:text="#{intro_text}">Use below forms to view videos or play audios provided by this server.</p>
       </div>
 
       <div class="row">
@@ -18,19 +18,19 @@
               <table class="mb-0 table">
                 <tr>
                   <td>
-                    <h4>View Video with HTML5 player</h4>
+                    <h4 th:text="#{view_video}">View Video with HTML5 player</h4>
                     <form class="form-inline" action="#" th:action="@{/video/view}" method="post">
                       /video/ <input type="text" class="form-control form-control-sm" placeholder="identifier" name="identifier"> /view.html
-                      <button type="submit" class="btn btn-primary ml-auto">view</button>
+                      <button  th:text="#{view}" type="submit" class="btn btn-primary ml-auto">view</button>
                     </form>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <h4>Play Audio with HTML5 player</h4>
+                    <h4 th:text="#{play_audio}">Play Audio with HTML5 player</h4>
                     <form class="form-inline" action="#" th:action="@{/audio/play}" method="post">
                       /audio/ <input type="text" class="form-control form-control-sm" placeholder="identifier" name="identifier"> /play.html
-                      <button type="submit" class="btn btn-primary ml-auto">play</button>
+                      <button th:text="#{play}" type="submit" class="btn btn-primary ml-auto">play</button>
                     </form>
                   </td>
                 </tr>

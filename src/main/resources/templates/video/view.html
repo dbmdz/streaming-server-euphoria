@@ -9,11 +9,11 @@
         <div class="col-sm-12">
           <div class="card border-primary">
             <div class="card-header bg-primary text-white">
-              Viewing MP4-video "/stream/<span th:text="@{__${identifier}__}">...</span>/default.mp4" in HTML5
+              MP4-video "/stream/<span th:text="@{__${identifier}__}">...</span>/default.mp4" in HTML5
             </div>
             <div class="card-body">
               <video class="w-100" controls="true" preload="auto">
-                <source th:src="@{/stream/__${identifier}__/default.mp4}" type="video/mp4" />
+                <source th:src="@{/stream/__${identifier}__/default.mp4}" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>

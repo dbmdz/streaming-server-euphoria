@@ -4,24 +4,24 @@
       xmlns:sec="https://github.com/thymeleaf/thymeleaf-extras-springsecurity"
       xmlns:data="https://github.com/mxab/thymeleaf-extras-data-attribute">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
 
     <title>Euphoria Streaming Server</title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{/webjars/bootstrap/4.2.1/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap/4.2.1/dist/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link th:href="@{/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.css}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link th:href="@{/css/theme.css}" rel="stylesheet"/>
+    <link th:href="@{/css/theme.css}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -47,6 +47,17 @@
           <ul class="nav navbar-nav ml-auto">
             <li th:class="${menu} == 'home' ? 'active'">
               <a th:href="@{/}">Home</a>
+            </li>
+            <li>
+              <p class="navbar-text">
+                <a th:href="@{${currentUrl}(language='de')}" th:class="${#locale.language == 'de' ? 'active navbar-link badge': 'navbar-link'}">
+                  de
+                </a>
+                |
+                <a th:href="@{${currentUrl}(language='en')}" th:class="${#locale.language == 'en' ? 'active navbar-link badge': 'navbar-link'}">
+                  en
+                </a>
+              </p>
             </li>
           </ul>
         </div>
