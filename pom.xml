@@ -86,6 +86,7 @@
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
     <version.webjar-jquery>1.11.3</version.webjar-jquery>
+    <version.webjar-material-icons>0.2.3</version.webjar-material-icons>
     <version.webjar-respond>1.4.2</version.webjar-respond>
   </properties>
 
@@ -178,6 +179,11 @@
           <artifactId>jquery</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>material-icons</artifactId>
+      <version>${version.webjar-material-icons}</version>
     </dependency>
   </dependencies>
 
