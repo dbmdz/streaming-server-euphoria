@@ -1,5 +1,6 @@
 package de.digitalcollections.streaming.euphoria.config;
 
+import de.digitalcollections.commons.springmvc.interceptors.CurrentUrlAsModelAttributeHandlerInterceptor;
 import java.util.Locale;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
@@ -37,12 +38,16 @@ public class SpringConfigWeb implements WebMvcConfigurer {
     LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
     localeChangeInterceptor.setParamName("language");
     registry.addInterceptor(localeChangeInterceptor);
+
+    CurrentUrlAsModelAttributeHandlerInterceptor currentUrlAsModelAttributeHandlerInterceptor = new CurrentUrlAsModelAttributeHandlerInterceptor();
+    currentUrlAsModelAttributeHandlerInterceptor.deleteParams("language");
+    registry.addInterceptor(currentUrlAsModelAttributeHandlerInterceptor);
   }
 
-  @Bean(name = "localeResolver")
-  public LocaleResolver sessionLocaleResolver() {
+  @Bean
+  public LocaleResolver localeResolver() {
     SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-    localeResolver.setDefaultLocale(Locale.GERMAN);
+    localeResolver.setDefaultLocale(Locale.ENGLISH);
     return localeResolver;
   }
 }

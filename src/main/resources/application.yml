@@ -5,26 +5,58 @@ info:
       source: @maven.compiler.source@
       target: @maven.compiler.target@
     project:
-      name: '@project.name@'
-      groupId: @project.groupId@
       artifactId: @project.artifactId@
-      version: @project.version@
       buildDetails: '@versionName@'
+      groupId: @project.groupId@
+      name: '@project.name@'
+      version: @project.version@
+
+javamelody:
+  enabled: true
+  init-parameters:
+    allowed-addr-pattern: 'localhost|127\.0\.0\.1|0:0:0:0:0:0:0:1'
+    authorized-users: 'admin:secret'
+    http-transform-pattern: '(\\d+|(?<=currenttitles/).*|(?<=citationtitles/).*|(?<=occurrences/).*|(?<=periodical/).*|(?<=issues/).*)'
+    # log http requests:
+    log: false
+    monitoring-path: '/monitoring/javamelody'
+    storage-directory: '/local/javamelody-bookshelf'
+    url-exclude-pattern: '^(/webjars|/monitoring).*'
 
 management:
+  endpoint:
+    health:
+      show-details: when-authorized
   endpoints:
     web:
       base-path: '/monitoring'
       exposure:
         include: '*'
+  info:
+    git:
+      mode: full
   server:
     port: 9011
 
 server:
+  error:
+    include-exception: true
+    include-stacktrace: always
   port: 9010
   server-header: "@project.name@ v@project.version@"
+  tomcat:
+    accesslog:
+      directory: "/var/log/digitalcollections"
+      enabled: true
+      prefix: access_log_euphoria
+      rename-on-rotate: true
 
 spring:
+  messages:
+    basename: 'messages, messages-commons'
+    cache-duration: 5
+    encoding: 'UTF-8'
+    fallback-to-system-locale: false
   profiles:
     active: local
   security:
@@ -42,6 +74,9 @@ management:
     port: 9001
 
 server:
+  error:
+    include-exception: false
+    include-stacktrace: 'never'
   port: 8080
 
 spring:

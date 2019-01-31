@@ -11,6 +11,14 @@ body {
   height: 40px;
 }
 
+#navbar a.badge {
+  color: white;
+}
+
+.error-page p {
+  text-align: left;
+}
+
 footer {
   border-top: solid 1px #aaa;
   bottom: 0;
