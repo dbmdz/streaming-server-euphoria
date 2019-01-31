@@ -45,19 +45,19 @@
         </a>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav ml-auto">
-            <li th:class="${menu} == 'home' ? 'active'">
-              <a th:href="@{/}">Home</a>
+            <li th:class="${menu} == 'home' ? 'active nav-item' : 'nav-item'">
+              <a class="nav-link" th:href="@{/}">Home</a>
             </li>
-            <li>
-              <p class="navbar-text">
-                <a th:href="@{${currentUrl}(language='de')}" th:class="${#locale.language == 'de' ? 'active navbar-link badge': 'navbar-link'}">
-                  de
-                </a>
-                |
-                <a th:href="@{${currentUrl}(language='en')}" th:class="${#locale.language == 'en' ? 'active navbar-link badge': 'navbar-link'}">
-                  en
-                </a>
-              </p>
+            <li class="nav-item">
+              <a class="nav-link pr-1" th:href="@{${currentUrl}(language='de')}">
+                <span class="badge" th:classappend="${#locale.language == 'de' ? 'badge-dark': 'badge-secondary'}">de</span>
+              </a>
+            </li>
+            <span class="navbar-text">|</span>
+            <li class="nav-item">
+              <a class="nav-link pl-1" th:href="@{${currentUrl}(language='en')}">
+                <span class="badge" th:classappend="${#locale.language == 'en' ? 'badge-dark': 'badge-secondary'}">en</span>
+              </a>
             </li>
           </ul>
         </div>
