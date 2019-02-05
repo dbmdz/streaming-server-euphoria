@@ -78,7 +78,7 @@
     <version.webjar-bootstrap>4.2.1</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
-    <version.webjar-jquery>3.3.1</version.webjar-jquery>
+    <version.webjar-jquery>3.3.1-1</version.webjar-jquery>
     <version.webjar-respond>1.4.2</version.webjar-respond>
 
     <!-- plugins -->
