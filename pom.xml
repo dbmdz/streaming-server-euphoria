@@ -78,7 +78,7 @@
     <version.webjar-bootstrap>4.2.1</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3-1</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
-    <version.webjar-jquery>3.3.1-2</version.webjar-jquery>
+    <version.webjar-jquery>3.3.1</version.webjar-jquery>
     <version.webjar-respond>1.4.2-1</version.webjar-respond>
 
     <!-- plugins -->
@@ -194,11 +194,6 @@
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>jquery</artifactId>
-      <version>${version.webjar-jquery}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
       <artifactId>respond</artifactId>
       <version>${version.webjar-respond}</version>
     </dependency>
@@ -217,6 +212,11 @@
           <artifactId>jquery</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>jquery</artifactId>
+      <version>${version.webjar-jquery}</version>
     </dependency>
   </dependencies>
 
