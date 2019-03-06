@@ -30,20 +30,20 @@ Build the webapp locally and copy it to server:
 ```shell
 $ cd <source_directory_euphoria>
 $ mvn clean install
-$ scp target/streaming-server-euphoria-2.0.0-SNAPSHOT.jar <user>@<server>:/local/bin
+$ scp target/streaming-server-euphoria-3.0.0-SNAPSHOT.jar <user>@<server>:/local/bin
 ```
 
 ### Configuration
 
 Based on unique resource identifiers corresponding to the requested filenames the server tries to resolve identifiers to a "file:" path.
-The resolving rules (one rule per line) are configurable with regular expressions in yaml-files, e.g. for production environment see [here](src/main/resources/de/digitalcollections/core/config/multiPatternResolving-PROD.yml).
+The resolving rules (one rule per line) are configurable with regular expressions in yaml-files, e.g. for production environment see [here](src/main/resources/application.yml).
 
 ### Usage
 
 * To run streaming-server-euphoria, e.g.:
 
 ```shell
-/usr/bin/java -XX:+ExitOnOutOfMemoryError -XX:+CrashOnOutOfMemoryError -XX:MaxDirectMemorySize=8G -Xmx4G -jar /local/bin/streaming-server-euphoria-2.0.0-SNAPSHOT.jar --spring.profiles.active=PROD --server.port=8080 --server.servlet.context-path=/media --management.server.port=9001 --logging.config=/local/config/euphoria/logback-spring.xml
+/usr/bin/java -XX:+ExitOnOutOfMemoryError -XX:+CrashOnOutOfMemoryError -XX:MaxDirectMemorySize=8G -Xmx4G -jar /local/bin/streaming-server-euphoria-3.0.0-SNAPSHOT.jar --spring.profiles.active=PROD --server.port=8080 --server.servlet.context-path=/media --management.server.port=9001 --logging.config=/local/config/euphoria/logback-spring.xml
 ```
 
 Open webapp in browser (use configured 'server.port' and 'server.servlet.context-path'): http://localhost:8080/media

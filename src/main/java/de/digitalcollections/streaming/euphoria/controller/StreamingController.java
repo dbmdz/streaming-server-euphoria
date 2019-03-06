@@ -1,9 +1,8 @@
 package de.digitalcollections.streaming.euphoria.controller;
 
-import de.digitalcollections.commons.file.business.api.FileResourceService;
+import de.digitalcollections.commons.file.business.impl.resolved.ResolvedFileResourceServiceImpl;
 import de.digitalcollections.model.api.identifiable.resource.FileResource;
 import de.digitalcollections.model.api.identifiable.resource.MimeType;
-import de.digitalcollections.model.api.identifiable.resource.enums.FileResourcePersistenceType;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceNotFoundException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -75,6 +74,9 @@ public class StreamingController {
   private static final long ONE_SECOND_IN_MILLIS = TimeUnit.SECONDS.toMillis(1);
   private static final Pattern RANGE_PATTERN = Pattern.compile("^bytes=[0-9]*-[0-9]*(,[0-9]*-[0-9]*)*$");
 
+  @Autowired
+  ResolvedFileResourceServiceImpl resourceService;
+
   /**
    * Returns true if the given accept header accepts the given value.
    *
@@ -86,8 +88,8 @@ public class StreamingController {
     String[] acceptValues = acceptHeader.split("\\s*(,|;)\\s*");
     Arrays.sort(acceptValues);
     return Arrays.binarySearch(acceptValues, toAccept) > -1
-      || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
-      || Arrays.binarySearch(acceptValues, "*/*") > -1;
+           || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
+           || Arrays.binarySearch(acceptValues, "*/*") > -1;
   }
 
   /**
@@ -117,7 +119,7 @@ public class StreamingController {
     String[] matchValues = matchHeader.split("\\s*,\\s*");
     Arrays.sort(matchValues);
     return Arrays.binarySearch(matchValues, toMatch) > -1
-      || Arrays.binarySearch(matchValues, "*") > -1;
+           || Arrays.binarySearch(matchValues, "*") > -1;
   }
 
   /**
@@ -141,9 +143,6 @@ public class StreamingController {
     return (substring.length() > 0) ? Long.parseLong(substring) : -1;
   }
 
-  @Autowired
-  FileResourceService resourceService;
-
   /**
    * Copy the given byte range of the given input to the given output.
    *
@@ -156,7 +155,7 @@ public class StreamingController {
    */
   @SuppressFBWarnings(value = "SR_NOT_CHECKED", justification = "Return check of input.skip() is done later in while-loop and used as terminating loop")
   private void copy(InputStream input, OutputStream output, long inputSize, long start, long length)
-    throws IOException {
+      throws IOException {
     byte[] buffer = new byte[DEFAULT_STREAM_BUFFER_SIZE];
     int read;
 
@@ -198,12 +197,12 @@ public class StreamingController {
     }
 
     return encodeURL(string)
-      .replace("+", "%20")
-      .replace("%21", "!")
-      .replace("%27", "'")
-      .replace("%28", "(")
-      .replace("%29", ")")
-      .replace("%7E", "~");
+        .replace("+", "%20")
+        .replace("%21", "!")
+        .replace("%27", "'")
+        .replace("%28", "(")
+        .replace("%29", ")")
+        .replace("%7E", "~");
   }
 
   /**
@@ -228,7 +227,7 @@ public class StreamingController {
 
   @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.HEAD)
   public void getHead(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+      throws Exception {
     LOGGER.info("HEAD request!");
     respond(id, extension, request, response, true);
   }
@@ -289,7 +288,7 @@ public class StreamingController {
   }
 
   private FileResource getResource(String id, String extension) throws ResourceIOException, ResourceNotFoundException {
-    FileResource resource = resourceService.get(id, FileResourcePersistenceType.REFERENCED, extension);
+    FileResource resource = resourceService.find(id, extension);
     return resource;
   }
 
@@ -413,7 +412,7 @@ public class StreamingController {
    * @throws IOException If something fails at I/O level.
    */
   private void respond(String id, String extension, HttpServletRequest request, HttpServletResponse response, boolean head)
-    throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException {
     logRequestHeaders(request);
 
     response.reset();
@@ -575,7 +574,7 @@ public class StreamingController {
   @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE", justification = ".read() function in while-loop needs boundary check to terminate loop")
   private long stream(InputStream input, OutputStream output) throws IOException {
     try (ReadableByteChannel inputChannel = Channels.newChannel(input);
-      WritableByteChannel outputChannel = Channels.newChannel(output)) {
+         WritableByteChannel outputChannel = Channels.newChannel(output)) {
       ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_STREAM_BUFFER_SIZE);
       long size = 0;
 
@@ -590,7 +589,7 @@ public class StreamingController {
   }
 
   private void writeContent(HttpServletResponse response, FileResource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
-    throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException {
     OutputStream output = null;
     InputStream datastream = null;
     BufferedInputStream input = null;

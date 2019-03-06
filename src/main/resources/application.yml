@@ -38,6 +38,18 @@ management:
   server:
     port: 9011
 
+resourceRepository:
+  resolved:
+    patterns:
+      - pattern: ^([^.]*?)$
+        substitutions:
+          - 'file:~/Downloads/$1.mp4'
+          - 'file:~/Downloads/$1.mp3'
+          - 'file:~/Downloads/$1.ogg'
+          - 'file:~/Downloads/$1.pdf'
+          - 'file:~/Downloads/$1.txt'
+          - 'file:~/Downloads/$1.xml'
+
 server:
   error:
     include-exception: true
@@ -72,6 +84,19 @@ spring:
 management:
   server:
     port: 9001
+
+resourceRepository:
+  resolved:
+    patterns:
+      - pattern: ^([^.]*?)$
+        # just examples, change the filepath to your setup
+        substitutions:
+          - 'file:/local/fileResources/$1.mp4'
+          - 'file:/local/fileResources/$1.mp3'
+          - 'file:/local/fileResources/$1.ogg'
+          - 'file:/local/fileResources/$1.pdf'
+          - 'file:/local/fileResources/$1.txt'
+          - 'file:/local/fileResources/$1.xml'
 
 server:
   error:
