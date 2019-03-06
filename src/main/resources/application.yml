@@ -20,7 +20,7 @@ javamelody:
     # log http requests:
     log: false
     monitoring-path: '/monitoring/javamelody'
-    storage-directory: '/local/javamelody-bookshelf'
+    storage-directory: '/local/javamelody-euphoria'
     url-exclude-pattern: '^(/webjars|/monitoring).*'
 
 management:
