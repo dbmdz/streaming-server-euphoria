@@ -20,7 +20,7 @@
                   <td>
                     <h4 th:text="#{view_video}">View Video with HTML5 player</h4>
                     <form class="form-inline" action="#" th:action="@{/video/view}" method="post">
-                      /video/ <input type="text" class="form-control form-control-sm" placeholder="identifier" name="identifier"> /view.html
+                      /video/ <input class="form-control form-control-sm" name="identifier" placeholder="identifier" required type="text"> /view.html
                       <button  th:text="#{view}" type="submit" class="btn btn-primary ml-auto">view</button>
                     </form>
                   </td>
@@ -29,7 +29,7 @@
                   <td>
                     <h4 th:text="#{play_audio}">Play Audio with HTML5 player</h4>
                     <form class="form-inline" action="#" th:action="@{/audio/play}" method="post">
-                      /audio/ <input type="text" class="form-control form-control-sm" placeholder="identifier" name="identifier"> /play.html
+                      /audio/ <input class="form-control form-control-sm" name="identifier" placeholder="identifier" required type="text"> /play.html
                       <button th:text="#{play}" type="submit" class="btn btn-primary ml-auto">play</button>
                     </form>
                   </td>
