@@ -71,7 +71,7 @@
     <timestamp>${maven.build.timestamp}</timestamp>
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
 
-    <version.dc-commons>4.0.1</version.dc-commons>
+    <version.dc-commons>4.0.3</version.dc-commons>
     <version.javamelody>1.78.0</version.javamelody>
     <version.junit-jupiter>5.5.0</version.junit-jupiter>
     <version.logstash-logback-encoder>5.3</version.logstash-logback-encoder>
