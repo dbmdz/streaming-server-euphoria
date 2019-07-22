@@ -74,7 +74,7 @@
     <version.dc-commons>4.0.1</version.dc-commons>
     <version.javamelody>1.78.0</version.javamelody>
     <version.junit-jupiter>5.5.1</version.junit-jupiter>
-    <version.logstash-logback-encoder>5.3</version.logstash-logback-encoder>
+    <version.logstash-logback-encoder>6.1</version.logstash-logback-encoder>
     <version.spotbugs>3.1.12</version.spotbugs>
     <version.webjar-bootstrap>4.3.1</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3-1</version.webjar-html5shiv>
