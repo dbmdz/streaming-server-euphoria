@@ -21,9 +21,6 @@ public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
   @Value("${spring.security.user.password}")
   private String actuatorPassword;
 
-  @Value("${javamelody.init-parameters.monitoring-path:/monitoring}")
-  String javamelodyMonitoringPath;
-
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication().passwordEncoder(passwordEncoderDummy())
@@ -36,13 +33,8 @@ public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
     // see https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
     http.antMatcher("/monitoring/**").authorizeRequests()
       .requestMatchers(EndpointRequest.to(InfoEndpoint.class, HealthEndpoint.class)).permitAll()
-      .requestMatchers(EndpointRequest.to("jolokia", "prometheus", "version")).permitAll()
+      .requestMatchers(EndpointRequest.to("prometheus", "version")).permitAll()
       .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR").and().httpBasic();
-  }
-
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers(javamelodyMonitoringPath);
   }
 
   private PasswordEncoder passwordEncoderDummy() {

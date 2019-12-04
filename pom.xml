@@ -72,7 +72,6 @@
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
 
     <version.dc-commons>4.0.1</version.dc-commons>
-    <version.javamelody>1.80.0</version.javamelody>
     <version.junit-jupiter>5.5.2</version.junit-jupiter>
     <version.logstash-logback-encoder>6.2</version.logstash-logback-encoder>
     <version.spotbugs>3.1.12</version.spotbugs>
@@ -121,11 +120,6 @@
       <artifactId>micrometer-registry-prometheus</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.bull.javamelody</groupId>
-      <artifactId>javamelody-spring-boot-starter</artifactId>
-      <version>${version.javamelody}</version>
-    </dependency>
-    <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
       <version>${version.logstash-logback-encoder}</version>
@@ -137,11 +131,6 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jolokia</groupId>
-      <artifactId>jolokia-core</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>

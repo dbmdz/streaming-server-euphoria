@@ -11,18 +11,6 @@ info:
       name: '@project.name@'
       version: @project.version@
 
-javamelody:
-  enabled: true
-  init-parameters:
-    allowed-addr-pattern: 'localhost|127\.0\.0\.1|0:0:0:0:0:0:0:1'
-    authorized-users: 'admin:secret'
-    http-transform-pattern: '(\\d+|(?<=currenttitles/).*|(?<=citationtitles/).*|(?<=occurrences/).*|(?<=periodical/).*|(?<=issues/).*)'
-    # log http requests:
-    log: false
-    monitoring-path: '/monitoring/javamelody'
-    storage-directory: '/local/javamelody-euphoria'
-    url-exclude-pattern: '^(/webjars|/monitoring).*'
-
 management:
   endpoint:
     health:
