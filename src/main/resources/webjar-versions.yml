@@ -1,0 +1,6 @@
+---
+bootstrap: '@version.webjar-bootstrap@'
+html5shiv: '@version.webjar-html5shiv@'
+ie10-viewport-bug-workaround: '@version.webjar-ie10-viewport-bug-workaround@'
+jquery: '@version.webjar-jquery@'
+respond: '@version.webjar-respond@'

@@ -218,6 +218,7 @@
         <filtering>true</filtering>
         <includes>
           <include>application.yml</include>
+          <include>webjar-versions.yml</include>
         </includes>
       </resource>
     </resources>
