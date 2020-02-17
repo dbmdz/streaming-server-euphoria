@@ -1,7 +1,6 @@
 package de.digitalcollections.streaming.euphoria.config;
 
 import de.digitalcollections.commons.springmvc.interceptors.CurrentUrlAsModelAttributeHandlerInterceptor;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
