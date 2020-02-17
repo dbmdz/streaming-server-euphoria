@@ -1,5 +1,8 @@
 package de.digitalcollections.streaming.euphoria.controller;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import de.digitalcollections.commons.file.business.impl.resolved.ResolvedFileResourceServiceImpl;
 import de.digitalcollections.model.api.identifiable.resource.FileResource;
 import de.digitalcollections.model.api.identifiable.resource.MimeType;
@@ -38,44 +41,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 /**
- * <p>
- * Based on
- * <a href="https://github.com/omnifaces/omnifaces/blob/develop/src/main/java/org/omnifaces/servlet/FileServlet.java">Omnifaces
+ * Based on <a
+ * href="https://github.com/omnifaces/omnifaces/blob/develop/src/main/java/org/omnifaces/servlet/FileServlet.java">Omnifaces
  * FileServlet.java</a> (Apache License 2.0)
  *
- * <p>
- * This implementation properly deals with <code>ETag</code>, <code>If-None-Match</code> and
- * <code>If-Modified-Since</code> caching requests, hereby improving browser caching. This servlet also properly deals
- * with <code>Range</code> and <code>If-Range</code> ranging requests
- * (<a href="https://tools.ietf.org/html/rfc7233">RFC7233</a>), which is required by most media players for proper
- * audio/video streaming, and by webbrowsers and for a proper resume of an paused download, and by download accelerators
- * to be able to request smaller parts simultaneously. This implementaion is ideal when you have large files like media
- * files placed outside the web application and you can't use the default servlet.
+ * <p>This implementation properly deals with <code>ETag</code>, <code>If-None-Match</code> and
+ * <code>If-Modified-Since</code> caching requests, hereby improving browser caching. This servlet
+ * also properly deals with <code>Range</code> and <code>If-Range</code> ranging requests (<a
+ * href="https://tools.ietf.org/html/rfc7233">RFC7233</a>), which is required by most media players
+ * for proper audio/video streaming, and by webbrowsers and for a proper resume of an paused
+ * download, and by download accelerators to be able to request smaller parts simultaneously. This
+ * implementaion is ideal when you have large files like media files placed outside the web
+ * application and you can't use the default servlet.
  *
  * <ul>
- * <li><a href="http://stackoverflow.com/q/13588149/157882">How to stream audio/video files such as MP3, MP4, AVI, etc
- * using a Servlet</a>
- * <li><a href="http://stackoverflow.com/a/29991447/157882">Abstract template for a static resource servlet</a>
+ *   <li><a href="http://stackoverflow.com/q/13588149/157882">How to stream audio/video files such
+ *       as MP3, MP4, AVI, etc using a Servlet</a>
+ *   <li><a href="http://stackoverflow.com/a/29991447/157882">Abstract template for a static
+ *       resource servlet</a>
  * </ul>
  */
 @RestController
 public class StreamingController {
 
-  private static final String CONTENT_DISPOSITION_HEADER = "%s;filename=\"%2$s\"; filename*=UTF-8''%2$s";
+  private static final String CONTENT_DISPOSITION_HEADER =
+      "%s;filename=\"%2$s\"; filename*=UTF-8''%2$s";
   private static final Long DEFAULT_EXPIRE_TIME_IN_SECONDS = TimeUnit.DAYS.toSeconds(30);
   private static final int DEFAULT_STREAM_BUFFER_SIZE = 10240; // 10 kB;
-  private static final String ERROR_UNSUPPORTED_ENCODING = "UTF-8 is apparently not supported on this platform.";
+  private static final String ERROR_UNSUPPORTED_ENCODING =
+      "UTF-8 is apparently not supported on this platform.";
   private static final Logger LOGGER = LoggerFactory.getLogger(StreamingController.class);
   private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
   private static final long ONE_SECOND_IN_MILLIS = TimeUnit.SECONDS.toMillis(1);
-  private static final Pattern RANGE_PATTERN = Pattern.compile("^bytes=[0-9]*-[0-9]*(,[0-9]*-[0-9]*)*$");
+  private static final Pattern RANGE_PATTERN =
+      Pattern.compile("^bytes=[0-9]*-[0-9]*(,[0-9]*-[0-9]*)*$");
 
-  @Autowired
-  ResolvedFileResourceServiceImpl resourceService;
+  @Autowired ResolvedFileResourceServiceImpl resourceService;
 
   /**
    * Returns true if the given accept header accepts the given value.
@@ -88,8 +90,8 @@ public class StreamingController {
     String[] acceptValues = acceptHeader.split("\\s*(,|;)\\s*");
     Arrays.sort(acceptValues);
     return Arrays.binarySearch(acceptValues, toAccept) > -1
-           || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
-           || Arrays.binarySearch(acceptValues, "*/*") > -1;
+        || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
+        || Arrays.binarySearch(acceptValues, "*/*") > -1;
   }
 
   /**
@@ -119,19 +121,18 @@ public class StreamingController {
     String[] matchValues = matchHeader.split("\\s*,\\s*");
     Arrays.sort(matchValues);
     return Arrays.binarySearch(matchValues, toMatch) > -1
-           || Arrays.binarySearch(matchValues, "*") > -1;
+        || Arrays.binarySearch(matchValues, "*") > -1;
   }
 
-  /**
-   * Returns true if the given modified header is older than the given last modified value.
-   */
+  /** Returns true if the given modified header is older than the given last modified value. */
   private static boolean modified(long modifiedHeader, long lastModified) {
-    return (modifiedHeader + ONE_SECOND_IN_MILLIS <= lastModified); // That second is because the header is in seconds, not millis.
+    return (modifiedHeader + ONE_SECOND_IN_MILLIS
+        <= lastModified); // That second is because the header is in seconds, not millis.
   }
 
   /**
-   * Returns a substring of the given string value from the given begin index to the given end index as a long. If the
-   * substring is empty, then -1 will be returned
+   * Returns a substring of the given string value from the given begin index to the given end index
+   * as a long. If the substring is empty, then -1 will be returned
    *
    * @param value The string value to return a substring as long for.
    * @param beginIndex The begin index of the substring to be returned as long.
@@ -153,27 +154,40 @@ public class StreamingController {
    * @param length Length of the byte range.
    * @throws IOException If something fails at I/O level.
    */
-  @SuppressFBWarnings(value = "SR_NOT_CHECKED", justification = "Return check of input.skip() is done later in while-loop and used as terminating loop")
+  @SuppressFBWarnings(
+      value = "SR_NOT_CHECKED",
+      justification =
+          "Return check of input.skip() is done later in while-loop and used as terminating loop")
   private void copy(InputStream input, OutputStream output, long inputSize, long start, long length)
       throws IOException {
     byte[] buffer = new byte[DEFAULT_STREAM_BUFFER_SIZE];
     int read;
 
     if (inputSize == length) {
-      LOGGER.debug("*** Response: writing FULL RANGE (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
+      LOGGER.debug(
+          "*** Response: writing FULL RANGE (from byte {} to byte {} = {} kB of total {} kB)",
+          start,
+          (start + length - 1),
+          length / 1024,
+          inputSize / 1024);
       stream(input, output);
     } else {
-      LOGGER.debug("*** Response: writing partial range (from byte {} to byte {} = {} kB of total {} kB)", start, (start + length - 1), length / 1024, inputSize / 1024);
+      LOGGER.debug(
+          "*** Response: writing partial range (from byte {} to byte {} = {} kB of total {} kB)",
+          start,
+          (start + length - 1),
+          length / 1024,
+          inputSize / 1024);
       input.skip(start);
       long toRead = length;
 
       while ((read = input.read(buffer)) > 0) {
         if ((toRead -= read) > 0) {
           output.write(buffer, 0, read);
-//          output.flush();
+          //          output.flush();
         } else {
           output.write(buffer, 0, (int) toRead + read);
-//          output.flush();
+          //          output.flush();
           break;
         }
       }
@@ -181,13 +195,15 @@ public class StreamingController {
   }
 
   /**
-   * URI-encode the given string using UTF-8. URIs (paths and filenames) have different encoding rules as compared to
-   * URL query string parameters. {@link URLEncoder} is actually only for www (HTML) form based query string parameter
-   * values (as used when a webbrowser submits a HTML form). URI encoding has a lot in common with URL encoding, but the
-   * space has to be %20 and some chars doesn't necessarily need to be encoded.
+   * URI-encode the given string using UTF-8. URIs (paths and filenames) have different encoding
+   * rules as compared to URL query string parameters. {@link URLEncoder} is actually only for www
+   * (HTML) form based query string parameter values (as used when a webbrowser submits a HTML
+   * form). URI encoding has a lot in common with URL encoding, but the space has to be %20 and some
+   * chars doesn't necessarily need to be encoded.
    *
    * @param string The string to be URI-encoded using UTF-8.
-   * @return The given string, URI-encoded using UTF-8, or <code>null</code> if <code>null</code> was given.
+   * @return The given string, URI-encoded using UTF-8, or <code>null</code> if <code>null</code>
+   *     was given.
    * @throws UnsupportedOperationException When this platform does not support UTF-8.
    * @since 2.4
    */
@@ -209,7 +225,8 @@ public class StreamingController {
    * URL-encode the given string using UTF-8.
    *
    * @param string The string to be URL-encoded using UTF-8.
-   * @return The given string, URL-encoded using UTF-8, or <code>null</code> if <code>null</code> was given.
+   * @return The given string, URL-encoded using UTF-8, or <code>null</code> if <code>null</code>
+   *     was given.
    * @throws UnsupportedOperationException When this platform does not support UTF-8.
    * @since 1.4
    */
@@ -226,20 +243,25 @@ public class StreamingController {
   }
 
   @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.HEAD)
-  public void getHead(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response)
+  public void getHead(
+      @PathVariable String id,
+      @PathVariable String extension,
+      HttpServletRequest request,
+      HttpServletResponse response)
       throws Exception {
     LOGGER.info("HEAD request!");
     respond(id, extension, request, response, true);
   }
 
   /**
-   * <p>
    * Set the no-cache headers. The following headers will be set:
+   *
    * <ul>
-   * <li><code>Cache-Control: no-cache,no-store,must-revalidate</code></li>
-   * <li><code>Expires: [expiration date of 0]</code></li>
-   * <li><code>Pragma: no-cache</code></li>
+   *   <li><code>Cache-Control: no-cache,no-store,must-revalidate</code>
+   *   <li><code>Expires: [expiration date of 0]</code>
+   *   <li><code>Pragma: no-cache</code>
    * </ul>
+   *
    * Set the no-cache headers.
    *
    * @param response The HTTP servlet response to set the headers on.
@@ -251,7 +273,8 @@ public class StreamingController {
   }
 
   /**
-   * Get requested ranges. If this is null, then we must return 416. If this is empty, then we must return full file.
+   * Get requested ranges. If this is null, then we must return 416. If this is empty, then we must
+   * return full file.
    */
   private List<Range> getRanges(HttpServletRequest request, ResourceInfo resourceInfo) {
     List<Range> ranges = new ArrayList<>(1);
@@ -287,32 +310,40 @@ public class StreamingController {
     return ranges;
   }
 
-  private FileResource getResource(String id, String extension) throws ResourceIOException, ResourceNotFoundException {
+  private FileResource getResource(String id, String extension)
+      throws ResourceIOException, ResourceNotFoundException {
     FileResource resource = resourceService.find(id, extension);
     return resource;
   }
 
   @RequestMapping(value = "/stream/{id}/default.{extension}", method = RequestMethod.GET)
-  public void getStream(@PathVariable String id, @PathVariable String extension, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public void getStream(
+      @PathVariable String id,
+      @PathVariable String extension,
+      HttpServletRequest request,
+      HttpServletResponse response)
+      throws Exception {
     LOGGER.info("Stream for resource {}.{} requested.", id, extension);
     respond(id, extension, request, response, false);
   }
 
   /**
-   * Returns <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet request and content
-   * type as obtained from {@link #getContentType(HttpServletRequest, File)}.
-   * <p>
-   * The default implementation will return <code>true</code> if the content type does <strong>not</strong> start with
-   * <code>text</code> or <code>image</code>, and the <code>Accept</code> request header is either <code>null</code> or
-   * does not match the given content type.
+   * Returns <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet
+   * request and content type as obtained from {@link #getContentType(HttpServletRequest, File)}.
+   *
+   * <p>The default implementation will return <code>true</code> if the content type does
+   * <strong>not</strong> start with <code>text</code> or <code>image</code>, and the <code>Accept
+   * </code> request header is either <code>null</code> or does not match the given content type.
    *
    * @param request The involved HTTP servlet request.
    * @param contentType The content type of the involved file.
-   * @return <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet request and content type.
+   * @return <code>true</code> if we must force a "Save As" dialog based on the given HTTP servlet
+   *     request and content type.
    */
   private boolean isAttachment(HttpServletRequest request, String contentType) {
     String accept = request.getHeader("Accept");
-    return !startsWithOneOf(contentType, "text", "image") && (accept == null || !accepts(accept, contentType));
+    return !startsWithOneOf(contentType, "text", "image")
+        && (accept == null || !accepts(accept, contentType));
   }
 
   private void logRequestHeaders(HttpServletRequest request) {
@@ -328,29 +359,34 @@ public class StreamingController {
   }
 
   /**
+   *
+   *
    * <ul>
-   * <li>Request-Header "If-None-Match" should contain "*" or ETag.</li>
-   * <li>If-Modified-Since header should be greater than LastModified. This header is ignored if any If-None-Match
-   * header is specified.</li>
+   *   <li>Request-Header "If-None-Match" should contain "*" or ETag.
+   *   <li>If-Modified-Since header should be greater than LastModified. This header is ignored if
+   *       any If-None-Match header is specified.
    * </ul>
    */
   private boolean notModified(HttpServletRequest request, ResourceInfo resourceInfo) {
     String noMatch = request.getHeader("If-None-Match");
     long modified = request.getDateHeader("If-Modified-Since");
-    return (noMatch != null) ? matches(noMatch, resourceInfo.eTag) : (modified != -1 && !modified(modified, resourceInfo.lastModified));
+    return (noMatch != null)
+        ? matches(noMatch, resourceInfo.eTag)
+        : (modified != -1 && !modified(modified, resourceInfo.lastModified));
   }
 
   /**
    * Parse range header part. Returns null if there's a logic error (i.e. start after end).
    *
-   * The first-byte-pos value in a byte-range-spec gives the byte-offset of the first byte in a range. The last-byte-pos
-   * value gives the byte-offset of the last byte in the range; that is, the byte positions specified are inclusive.
-   * Byte offsets start at zero.
+   * <p>The first-byte-pos value in a byte-range-spec gives the byte-offset of the first byte in a
+   * range. The last-byte-pos value gives the byte-offset of the last byte in the range; that is,
+   * the byte positions specified are inclusive. Byte offsets start at zero.
    *
-   * Examples of byte-ranges-specifier values: The first 500 bytes (byte offsets 0-499, inclusive): bytes=0-499 The
-   * second 500 bytes (byte offsets 500-999, inclusive): bytes=500-999
+   * <p>Examples of byte-ranges-specifier values: The first 500 bytes (byte offsets 0-499,
+   * inclusive): bytes=0-499 The second 500 bytes (byte offsets 500-999, inclusive): bytes=500-999
    *
-   * A byte-range-spec is invalid if the last-byte-pos value is present and less than the first-byte-pos.
+   * <p>A byte-range-spec is invalid if the last-byte-pos value is present and less than the
+   * first-byte-pos.
    */
   private Range parseRange(String range, long length) {
     long start = sublong(range, 0, range.indexOf('-'));
@@ -391,14 +427,16 @@ public class StreamingController {
    * Validate request headers for resume.
    *
    * <ul>
-   * <li>"If-Match" header should contain "*" or ETag.</li>
-   * <li>"If-Unmodified-Since" header should be greater than LastModified.</li>
+   *   <li>"If-Match" header should contain "*" or ETag.
+   *   <li>"If-Unmodified-Since" header should be greater than LastModified.
    * </ul>
    */
   private boolean preconditionFailed(HttpServletRequest request, ResourceInfo resourceInfo) {
     String match = request.getHeader("If-Match");
     long unmodified = request.getDateHeader("If-Unmodified-Since");
-    return (match != null) ? !matches(match, resourceInfo.eTag) : (unmodified != -1 && modified(unmodified, resourceInfo.lastModified));
+    return (match != null)
+        ? !matches(match, resourceInfo.eTag)
+        : (unmodified != -1 && modified(unmodified, resourceInfo.lastModified));
   }
 
   /**
@@ -411,7 +449,12 @@ public class StreamingController {
    * @param head "true" if response body should be written (GET) or "false" if not (HEAD).
    * @throws IOException If something fails at I/O level.
    */
-  private void respond(String id, String extension, HttpServletRequest request, HttpServletResponse response, boolean head)
+  private void respond(
+      String id,
+      String extension,
+      HttpServletRequest request,
+      HttpServletResponse response,
+      boolean head)
       throws ResourceNotFoundException, IOException {
     logRequestHeaders(request);
 
@@ -422,7 +465,11 @@ public class StreamingController {
     try {
       resource = getResource(id, extension);
     } catch (ResourceIOException ex) {
-      LOGGER.warn("*** Response {}: Error referencing streaming resource with id {} and extension {}", HttpServletResponse.SC_NOT_FOUND, id, extension);
+      LOGGER.warn(
+          "*** Response {}: Error referencing streaming resource with id {} and extension {}",
+          HttpServletResponse.SC_NOT_FOUND,
+          id,
+          extension);
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
@@ -430,13 +477,21 @@ public class StreamingController {
     // get resource metadata
     ResourceInfo resourceInfo = new ResourceInfo(id, resource);
     if (resourceInfo.length <= 0) {
-      LOGGER.warn("*** Response {}: Error streaming resource with id {} and extension {}: not found/no size", HttpServletResponse.SC_NOT_FOUND, id, extension);
+      LOGGER.warn(
+          "*** Response {}: Error streaming resource with id {} and extension {}: not found/no size",
+          HttpServletResponse.SC_NOT_FOUND,
+          id,
+          extension);
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
 
     if (preconditionFailed(request, resourceInfo)) {
-      LOGGER.warn("*** Response {}: Precondition If-Match/If-Unmodified-Since failed for resource with id {} and extension {}.", HttpServletResponse.SC_PRECONDITION_FAILED, id, extension);
+      LOGGER.warn(
+          "*** Response {}: Precondition If-Match/If-Unmodified-Since failed for resource with id {} and extension {}.",
+          HttpServletResponse.SC_PRECONDITION_FAILED,
+          id,
+          extension);
       response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
       return;
     }
@@ -444,7 +499,11 @@ public class StreamingController {
     setCacheHeaders(response, resourceInfo);
 
     if (notModified(request, resourceInfo)) {
-      LOGGER.debug("*** Response {}: 'Not modified'-response for resource with id {} and extension {}.", HttpServletResponse.SC_NOT_MODIFIED, id, extension);
+      LOGGER.debug(
+          "*** Response {}: 'Not modified'-response for resource with id {} and extension {}.",
+          HttpServletResponse.SC_NOT_MODIFIED,
+          id,
+          extension);
       response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
       return;
     }
@@ -453,7 +512,11 @@ public class StreamingController {
 
     if (ranges == null) {
       response.setHeader("Content-Range", "bytes */" + resourceInfo.length);
-      LOGGER.warn("Response {}: Header Range for resource with id {} and extension {} not satisfiable", HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE, id, extension);
+      LOGGER.warn(
+          "Response {}: Header Range for resource with id {} and extension {} not satisfiable",
+          HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE,
+          id,
+          extension);
       response.sendError(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
       return;
     }
@@ -483,15 +546,15 @@ public class StreamingController {
   }
 
   /**
-   * <p>
-   * Set the cache headers. If the <code>expires</code> argument is larger than 0 seconds, then the following headers
-   * will be set:
+   * Set the cache headers. If the <code>expires</code> argument is larger than 0 seconds, then the
+   * following headers will be set:
+   *
    * <ul>
-   * <li><code>Cache-Control: public,max-age=[expiration time in seconds],must-revalidate</code></li>
-   * <li><code>Expires: [expiration date of now plus expiration time in seconds]</code></li>
+   *   <li><code>Cache-Control: public,max-age=[expiration time in seconds],must-revalidate</code>
+   *   <li><code>Expires: [expiration date of now plus expiration time in seconds]</code>
    * </ul>
-   * <p>
-   * Else the method will delegate to {@link #setNoCacheHeaders(HttpServletResponse)}.
+   *
+   * <p>Else the method will delegate to {@link #setNoCacheHeaders(HttpServletResponse)}.
    *
    * @param response The HTTP servlet response to set the headers on.
    * @param expires The expire time in seconds (not milliseconds!).
@@ -500,22 +563,25 @@ public class StreamingController {
     if (expires > 0) {
       response.setHeader("Cache-Control", "public,max-age=" + expires + ",must-revalidate");
       response.setDateHeader("Expires", System.currentTimeMillis() + SECONDS.toMillis(expires));
-      response.setHeader("Pragma", ""); // Explicitly set pragma to prevent container from overriding it.
+      response.setHeader(
+          "Pragma", ""); // Explicitly set pragma to prevent container from overriding it.
     } else {
       setNoCacheHeaders(response);
     }
   }
 
-  /**
-   * Caching, see https://tools.ietf.org/html/rfc7232#section-3.2
-   */
+  /** Caching, see https://tools.ietf.org/html/rfc7232#section-3.2 */
   private void setCacheHeaders(HttpServletResponse response, ResourceInfo resourceInfo) {
     setCacheHeaders(response, DEFAULT_EXPIRE_TIME_IN_SECONDS);
     response.setHeader("ETag", resourceInfo.eTag);
     response.setDateHeader("Last-Modified", resourceInfo.lastModified);
   }
 
-  private String setContentHeaders(HttpServletRequest request, HttpServletResponse response, ResourceInfo resourceInfo, List<Range> ranges) {
+  private String setContentHeaders(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      ResourceInfo resourceInfo,
+      List<Range> ranges) {
     String contentType = resourceInfo.contentType;
     // If content type is unknown, then set the default value.
     // For all content types, see: http://www.w3schools.com/media/media_mimeref.asp
@@ -525,7 +591,8 @@ public class StreamingController {
     }
     String disposition = isAttachment(request, contentType) ? "attachment" : "inline";
     String filename = encodeURI(resourceInfo.fileName);
-    response.setHeader("Content-Disposition", String.format(CONTENT_DISPOSITION_HEADER, disposition, filename));
+    response.setHeader(
+        "Content-Disposition", String.format(CONTENT_DISPOSITION_HEADER, disposition, filename));
     response.setHeader("Accept-Ranges", "bytes");
 
     if (ranges.size() == 1) {
@@ -534,7 +601,8 @@ public class StreamingController {
       response.setHeader("Content-Length", String.valueOf(range.length));
 
       if (response.getStatus() == HttpServletResponse.SC_PARTIAL_CONTENT) {
-        response.setHeader("Content-Range", "bytes " + range.start + "-" + range.end + "/" + resourceInfo.length);
+        response.setHeader(
+            "Content-Range", "bytes " + range.start + "-" + range.end + "/" + resourceInfo.length);
       }
     } else {
       response.setContentType("multipart/byteranges; boundary=" + MULTIPART_BOUNDARY);
@@ -562,19 +630,21 @@ public class StreamingController {
   }
 
   /**
-   * Stream the given input to the given output via NIO {@link Channels} and a directly allocated NIO
-   * {@link ByteBuffer}. Both the input and output streams will implicitly be closed after streaming, regardless of
-   * whether an exception is been thrown or not.
+   * Stream the given input to the given output via NIO {@link Channels} and a directly allocated
+   * NIO {@link ByteBuffer}. Both the input and output streams will implicitly be closed after
+   * streaming, regardless of whether an exception is been thrown or not.
    *
    * @param input The input stream.
    * @param output The output stream.
    * @return The length of the written bytes.
    * @throws IOException When an I/O error occurs.
    */
-  @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE", justification = ".read() function in while-loop needs boundary check to terminate loop")
+  @SuppressFBWarnings(
+      value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
+      justification = ".read() function in while-loop needs boundary check to terminate loop")
   private long stream(InputStream input, OutputStream output) throws IOException {
     try (ReadableByteChannel inputChannel = Channels.newChannel(input);
-         WritableByteChannel outputChannel = Channels.newChannel(output)) {
+        WritableByteChannel outputChannel = Channels.newChannel(output)) {
       ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_STREAM_BUFFER_SIZE);
       long size = 0;
 
@@ -588,7 +658,13 @@ public class StreamingController {
     }
   }
 
-  private void writeContent(HttpServletResponse response, FileResource resource, ResourceInfo resourceInfo, List<Range> ranges, String contentType, boolean acceptsGzip)
+  private void writeContent(
+      HttpServletResponse response,
+      FileResource resource,
+      ResourceInfo resourceInfo,
+      List<Range> ranges,
+      String contentType,
+      boolean acceptsGzip)
       throws ResourceNotFoundException, IOException {
     OutputStream output = null;
     InputStream datastream = null;
@@ -615,7 +691,8 @@ public class StreamingController {
           sos.println();
           sos.println("--" + MULTIPART_BOUNDARY);
           sos.println("Content-Type: " + contentType);
-          sos.println("Content-Range: bytes " + range.start + "-" + range.end + "/" + resourceInfo.length);
+          sos.println(
+              "Content-Range: bytes " + range.start + "-" + range.end + "/" + resourceInfo.length);
           copy(input, sos, resourceInfo.length, range.start, range.length);
         }
 
@@ -655,9 +732,7 @@ public class StreamingController {
     }
   }
 
-  /**
-   * This class represents a byte range.
-   */
+  /** This class represents a byte range. */
   protected static class Range {
 
     long start;
@@ -676,5 +751,4 @@ public class StreamingController {
       this.length = end - start + 1;
     }
   }
-
 }

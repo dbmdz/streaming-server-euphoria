@@ -29,12 +29,16 @@ public class SpringConfigWeb implements WebMvcConfigurer {
   /**
    * Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the
    * ${symbol_dollar}{webappRoot}/resources directory
+   *
    * @param registry resourcehandler registry
    */
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
-    registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(Integer.MAX_VALUE);
+    registry
+        .addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/")
+        .setCachePeriod(Integer.MAX_VALUE);
   }
 
   @Bean
@@ -48,7 +52,8 @@ public class SpringConfigWeb implements WebMvcConfigurer {
     localeChangeInterceptor.setParamName("language");
     registry.addInterceptor(localeChangeInterceptor);
 
-    CurrentUrlAsModelAttributeHandlerInterceptor currentUrlAsModelAttributeHandlerInterceptor = new CurrentUrlAsModelAttributeHandlerInterceptor();
+    CurrentUrlAsModelAttributeHandlerInterceptor currentUrlAsModelAttributeHandlerInterceptor =
+        new CurrentUrlAsModelAttributeHandlerInterceptor();
     currentUrlAsModelAttributeHandlerInterceptor.deleteParams("language");
     registry.addInterceptor(currentUrlAsModelAttributeHandlerInterceptor);
   }

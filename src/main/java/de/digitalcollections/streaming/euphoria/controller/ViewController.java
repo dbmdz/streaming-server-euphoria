@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Controller for serving different view pages.
- */
+/** Controller for serving different view pages. */
 @Controller
 public class ViewController {
 
-  @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+  @RequestMapping(
+      value = {"", "/"},
+      method = RequestMethod.GET)
   public String viewHomepage(Model model) {
     model.addAttribute("menu", "home");
     return "index";
