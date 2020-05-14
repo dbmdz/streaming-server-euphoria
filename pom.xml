@@ -75,7 +75,7 @@
     <version.junit-jupiter>5.6.2</version.junit-jupiter>
     <version.logstash-logback-encoder>6.3</version.logstash-logback-encoder>
     <version.spotbugs>4.0.3</version.spotbugs>
-    <version.webjar-bootstrap>4.4.1</version.webjar-bootstrap>
+    <version.webjar-bootstrap>4.5.0</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3-1</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
     <version.webjar-jquery>3.5.1</version.webjar-jquery>
