@@ -3,7 +3,7 @@ package de.digitalcollections.streaming.euphoria.controller;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import de.digitalcollections.commons.file.business.impl.resolved.ResolvedFileResourceServiceImpl;
+import de.digitalcollections.commons.file.business.api.FileResourceService;
 import de.digitalcollections.model.api.identifiable.resource.FileResource;
 import de.digitalcollections.model.api.identifiable.resource.MimeType;
 import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
@@ -77,7 +77,7 @@ public class StreamingController {
   private static final Pattern RANGE_PATTERN =
       Pattern.compile("^bytes=[0-9]*-[0-9]*(,[0-9]*-[0-9]*)*$");
 
-  @Autowired ResolvedFileResourceServiceImpl resourceService;
+  @Autowired FileResourceService fileResourceService;
 
   /**
    * Returns true if the given accept header accepts the given value.
@@ -312,7 +312,7 @@ public class StreamingController {
 
   private FileResource getResource(String id, String extension)
       throws ResourceIOException, ResourceNotFoundException {
-    FileResource resource = resourceService.find(id, extension);
+    FileResource resource = fileResourceService.find(id, extension);
     return resource;
   }
 
@@ -676,7 +676,7 @@ public class StreamingController {
         response.setHeader("Content-Encoding", "gzip");
         output = new GZIPOutputStream(output, DEFAULT_STREAM_BUFFER_SIZE);
       }
-      datastream = resourceService.getInputStream(resource);
+      datastream = fileResourceService.getInputStream(resource);
       // Open streams.
       input = new BufferedInputStream(datastream);
 

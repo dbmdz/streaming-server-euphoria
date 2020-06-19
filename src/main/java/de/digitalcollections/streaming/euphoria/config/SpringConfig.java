@@ -1,7 +1,9 @@
 package de.digitalcollections.streaming.euphoria.config;
 
+import de.digitalcollections.commons.file.config.SpringConfigCommonsFile;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /** Root context. */
 @Configuration
@@ -9,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
     basePackages = {
       "de.digitalcollections.commons.springboot.actuator",
       "de.digitalcollections.commons.springboot.contributor",
-      "de.digitalcollections.commons.springboot.monitoring",
-      "de.digitalcollections.commons.file.config"
+      "de.digitalcollections.commons.springboot.monitoring"
     })
+@Import(SpringConfigCommonsFile.class)
 public class SpringConfig {}
