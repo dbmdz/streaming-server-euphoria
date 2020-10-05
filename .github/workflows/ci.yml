@@ -25,6 +25,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B verify
   publish:
+    if: github.event_name == 'push' && contains(github.ref, 'main')
     runs-on: ubuntu-latest
     needs: build
     steps:
