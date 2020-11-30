@@ -94,6 +94,8 @@ server:
   port: 8080
 
 spring:
-  profiles: PROD
+  config:
+    activate:
+      on-profile: PROD
   thymeleaf:
     cache: true
