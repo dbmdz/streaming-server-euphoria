@@ -4,10 +4,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import de.digitalcollections.commons.file.business.api.FileResourceService;
-import de.digitalcollections.model.api.identifiable.resource.FileResource;
-import de.digitalcollections.model.api.identifiable.resource.MimeType;
-import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceIOException;
-import de.digitalcollections.model.api.identifiable.resource.exceptions.ResourceNotFoundException;
+import de.digitalcollections.model.exception.ResourceIOException;
+import de.digitalcollections.model.exception.ResourceNotFoundException;
+import de.digitalcollections.model.file.MimeType;
+import de.digitalcollections.model.identifiable.resource.FileResource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
