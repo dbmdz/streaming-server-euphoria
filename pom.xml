@@ -82,6 +82,7 @@
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
     <version.webjar-jquery>3.6.0</version.webjar-jquery>
     <version.webjar-respond>1.4.2-1</version.webjar-respond>
+    <version.webjar-webjars-locator>0.42</version.webjar-webjars-locator>
 
     <!-- plugins -->
     <version.jacoco-maven-plugin>0.8.7</version.jacoco-maven-plugin>
@@ -191,6 +192,11 @@
       <version>${version.webjar-respond}</version>
     </dependency>
     <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator</artifactId>
+      <version>${version.webjar-webjars-locator}</version>
+    </dependency>
+    <dependency>
       <groupId>org.webjars.bower</groupId>
       <artifactId>ie10-viewport-bug-workaround</artifactId>
       <version>${version.webjar-ie10-viewport-bug-workaround}</version>
@@ -224,7 +230,6 @@
         <filtering>true</filtering>
         <includes>
           <include>application.yml</include>
-          <include>application-webjars.yml</include>
         </includes>
       </resource>
     </resources>

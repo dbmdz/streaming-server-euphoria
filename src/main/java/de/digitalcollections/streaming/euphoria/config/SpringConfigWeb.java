@@ -30,10 +30,6 @@ public class SpringConfigWeb implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
-    registry
-        .addResourceHandler("/webjars/**")
-        .addResourceLocations("classpath:/META-INF/resources/webjars/")
-        .setCachePeriod(Integer.MAX_VALUE);
   }
 
   @Bean
