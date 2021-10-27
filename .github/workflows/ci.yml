@@ -1,8 +1,10 @@
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
 
 jobs:
   build:
@@ -35,19 +37,12 @@ jobs:
       matrix:
         java: [11, 17]
   publish:
-    if: github.event_name == 'push' && contains(github.ref, 'main')
+    if: (github.event_name == 'push' && contains(github.ref, 'main')) || github.event_name == 'release'
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-          server-id: ossrh-snapshots
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
       - name: Set up cache
         uses: actions/cache@v2
         env:
@@ -59,8 +54,40 @@ jobs:
         run: sudo apt install libxml2-utils
       - name: Extract project version
         run: echo "PROJECT_VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)" >> $GITHUB_ENV
-      - name: Publish to the Maven Central Repository
-        run: if [[ "$PROJECT_VERSION" =~ .*SNAPSHOT ]]; then mvn -B deploy; fi
+      # Publish snapshot
+      - name: Set up JDK 11 for publishing a snapshot
+        if: github.event_name == 'push' && endswith(env.PROJECT_VERSION, 'SNAPSHOT')
+        uses: actions/setup-java@v2
+        with:
+          check-latest: true
+          distribution: temurin
+          java-version: 11
+          server-id: ossrh-snapshots
+          server-password: MAVEN_PASSWORD
+          server-username: MAVEN_USERNAME
+      - name: Publish snapshot to the Maven Central Repository
+        if: github.event_name == 'push' && endswith(env.PROJECT_VERSION, 'SNAPSHOT')
+        run: mvn -B deploy -DskipTests
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      # Publish release
+      - name: Set up JDK 11 for publishing a release
+        if: github.event_name == 'release' && !endswith(env.PROJECT_VERSION, 'SNAPSHOT')
+        uses: actions/setup-java@v2
+        with:
+          check-latest: true
+          distribution: temurin
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          java-version: 11
+          server-id: ossrh
+          server-password: MAVEN_PASSWORD
+          server-username: MAVEN_USERNAME
+      - name: Publish release to the Maven Central Repository
+        if: github.event_name == 'release' && !endswith(env.PROJECT_VERSION, 'SNAPSHOT')
+        run: mvn -B deploy -DskipTests -Pdeploy
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
