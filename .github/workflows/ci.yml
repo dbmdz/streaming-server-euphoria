@@ -27,8 +27,8 @@ jobs:
         env:
           cache-name: cache-maven-artifacts
         with:
-          path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2/repository
       - name: Build with Maven
         run: mvn -B verify
     strategy:
@@ -36,8 +36,8 @@ jobs:
         java: [11, 17]
   publish:
     if: github.event_name == 'push' && contains(github.ref, 'main')
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -53,8 +53,8 @@ jobs:
         env:
           cache-name: cache-maven-artifacts
         with:
-          path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2/repository
       - name: Install XML utils
         run: sudo apt install libxml2-utils
       - name: Extract project version
