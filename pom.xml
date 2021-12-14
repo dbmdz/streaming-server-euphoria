@@ -76,7 +76,7 @@
     <version.dc-commons-springmvc>4.1.2</version.dc-commons-springmvc>
     <version.junit-jupiter>5.8.2</version.junit-jupiter>
     <version.logstash-logback-encoder>6.6</version.logstash-logback-encoder>
-    <version.spotbugs>4.5.1</version.spotbugs>
+    <version.spotbugs>4.5.2</version.spotbugs>
     <version.webjar-bootstrap>4.6.0</version.webjar-bootstrap>
     <version.webjar-html5shiv>3.7.3-1</version.webjar-html5shiv>
     <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
