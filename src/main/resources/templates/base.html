@@ -46,10 +46,10 @@
           <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
             <li class="nav-item">
               <a class="d-inline-block nav-link p-0" th:href="@{${currentUrl}(language='de')}">
-                <span class="badge" th:classappend="${#locale.language == 'de' ? 'badge-info': 'badge-secondary'}">de</span>
+                <span class="badge" th:classappend="${#locale.language == 'de' ? 'bg-info': 'bg-secondary'}">de</span>
               </a>
               <a class="d-inline-block nav-link p-0" th:href="@{${currentUrl}(language='en')}">
-                <span class="badge" th:classappend="${#locale.language == 'en' ? 'badge-info': 'badge-secondary'}">en</span>
+                <span class="badge" th:classappend="${#locale.language == 'en' ? 'bg-info': 'bg-secondary'}">en</span>
               </a>
             </li>
           </ul>
