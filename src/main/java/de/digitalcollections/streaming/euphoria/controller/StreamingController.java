@@ -248,7 +248,7 @@ public class StreamingController {
       @PathVariable String extension,
       HttpServletRequest request,
       HttpServletResponse response)
-      throws Exception {
+      throws ResourceNotFoundException, IOException {
     LOGGER.info("HEAD request!");
     respond(id, extension, request, response, true);
   }
@@ -322,7 +322,7 @@ public class StreamingController {
       @PathVariable String extension,
       HttpServletRequest request,
       HttpServletResponse response)
-      throws Exception {
+      throws ResourceNotFoundException, IOException {
     LOGGER.info("Stream for resource {}.{} requested.", id, extension);
     respond(id, extension, request, response, false);
   }
