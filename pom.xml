@@ -353,7 +353,7 @@
           </execution>
         </executions>
         <configuration>
-          <dotGitDirectory>${project.basedir}/../../.git</dotGitDirectory>
+          <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
           <generateGitPropertiesFile>true</generateGitPropertiesFile>
         </configuration>
       </plugin>
