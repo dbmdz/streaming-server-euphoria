@@ -70,49 +70,28 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <timestamp>${maven.build.timestamp}</timestamp>
     <versionName>${project.version} manually built by ${user.name} at ${maven.build.timestamp}</versionName>
-
-    <version.dc-commons-file>5.2.0</version.dc-commons-file>
-    <version.dc-commons-springboot>4.1.1</version.dc-commons-springboot>
-    <version.dc-commons-springmvc>4.2.0</version.dc-commons-springmvc>
-    <version.junit-jupiter>5.8.2</version.junit-jupiter>
-    <version.logstash-logback-encoder>7.1.1</version.logstash-logback-encoder>
-    <version.spotbugs>4.7.0</version.spotbugs>
-    <version.webjar-bootstrap>5.1.3</version.webjar-bootstrap>
-    <version.webjar-html5shiv>3.7.3-1</version.webjar-html5shiv>
-    <version.webjar-ie10-viewport-bug-workaround>1.0.3</version.webjar-ie10-viewport-bug-workaround>
-    <version.webjar-jquery>3.6.0</version.webjar-jquery>
-    <version.webjar-respond>1.4.2-1</version.webjar-respond>
-    <version.webjar-webjars-locator>0.45</version.webjar-webjars-locator>
-
-    <!-- plugins -->
-    <version.jacoco-maven-plugin>0.8.8</version.jacoco-maven-plugin>
-    <version.maven-fmt-plugin>2.13</version.maven-fmt-plugin>
-    <version.maven-gpg-plugin>3.0.1</version.maven-gpg-plugin>
-    <version.nexus-staging-maven-plugin>1.6.13</version.nexus-staging-maven-plugin>
-    <version.maven-surefire-plugin>3.0.0-M6</version.maven-surefire-plugin>
-    <version.spotbugs-maven-plugin>4.6.0.0</version.spotbugs-maven-plugin>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
-      <version>${version.spotbugs}</version>
+      <version>4.7.0</version>
     </dependency>
     <dependency>
       <groupId>de.digitalcollections.commons</groupId>
       <artifactId>dc-commons-file</artifactId>
-      <version>${version.dc-commons-file}</version>
+      <version>5.2.0</version>
     </dependency>
     <dependency>
       <groupId>de.digitalcollections.commons</groupId>
       <artifactId>dc-commons-springboot</artifactId>
-      <version>${version.dc-commons-springboot}</version>
+      <version>4.1.1</version>
     </dependency>
     <dependency>
       <groupId>de.digitalcollections.commons</groupId>
       <artifactId>dc-commons-springmvc</artifactId>
-      <version>${version.dc-commons-springmvc}</version>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <groupId>io.micrometer</groupId>
@@ -125,7 +104,7 @@
     <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
-      <version>${version.logstash-logback-encoder}</version>
+      <version>7.1.1</version>
     </dependency>
     <dependency>
       <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -180,27 +159,27 @@
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>html5shiv</artifactId>
-      <version>${version.webjar-html5shiv}</version>
+      <version>3.7.3-1</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>respond</artifactId>
-      <version>${version.webjar-respond}</version>
+      <version>1.4.2-1</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>webjars-locator</artifactId>
-      <version>${version.webjar-webjars-locator}</version>
+      <version>0.45</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.bower</groupId>
       <artifactId>ie10-viewport-bug-workaround</artifactId>
-      <version>${version.webjar-ie10-viewport-bug-workaround}</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>bootstrap</artifactId>
-      <version>${version.webjar-bootstrap}</version>
+      <version>5.1.3</version>
       <exclusions>
         <exclusion>
           <groupId>org.webjars</groupId>
@@ -211,7 +190,7 @@
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>jquery</artifactId>
-      <version>${version.webjar-jquery}</version>
+      <version>3.6.0</version>
     </dependency>
   </dependencies>
 
@@ -245,13 +224,13 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${version.spotbugs-maven-plugin}</version>
+        <version>4.6.0.0</version>
         <dependencies>
           <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
           <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>${version.spotbugs}</version>
+            <version>4.6.0</version>
           </dependency>
         </dependencies>
         <executions>
@@ -311,7 +290,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${version.maven-surefire-plugin}</version>
+        <version>3.0.0-M6</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -320,7 +299,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${version.jacoco-maven-plugin}</version>
+        <version>0.8.8</version>
         <executions>
           <execution>
             <id>pre-unit-test</id>
@@ -344,7 +323,7 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>${version.nexus-staging-maven-plugin}</version>
+        <version>1.6.13</version>
         <extensions>true</extensions>
         <configuration>
           <serverId>ossrh</serverId>
@@ -422,7 +401,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>${version.maven-gpg-plugin}</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -443,7 +422,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${version.jacoco-maven-plugin}</version>
+        <version>0.8.8</version>
       </plugin>
     </plugins>
   </reporting>
