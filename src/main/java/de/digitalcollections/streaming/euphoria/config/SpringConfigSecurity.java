@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @SuppressFBWarnings(
     value = "THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION",
-    justification = "Spring Security throws java.lang.exeption...")
+    justification = "Spring Security throws java.lang.Exception...")
 public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
 
   @Value("${spring.security.user.name}")
