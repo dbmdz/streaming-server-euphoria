@@ -168,7 +168,7 @@
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>bootstrap</artifactId>
-      <version>5.2.0</version>
+      <version>5.2.1</version>
       <exclusions>
         <exclusion>
           <groupId>org.webjars</groupId>
