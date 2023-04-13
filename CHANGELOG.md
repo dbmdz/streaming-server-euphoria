@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## [Unreleased]
 
+## [4.0.5](https://github.com/dbmdz/streaming-server-euphoria/releases/tag/4.0.5) - 2023-04-13
+
+### Changed
+
+- Updated dependencies
+
 ## [4.0.4](https://github.com/dbmdz/streaming-server-euphoria/releases/tag/4.0.4) - 2022-04-01
 
 ### Changed
