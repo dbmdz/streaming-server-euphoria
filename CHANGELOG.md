@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ### Changed
 
 - Improved logging
+- Migrated to Java 17
 
 ## [4.0.5](https://github.com/dbmdz/streaming-server-euphoria/releases/tag/4.0.5) - 2023-04-13
 

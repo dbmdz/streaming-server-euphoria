@@ -34,7 +34,7 @@ jobs:
         run: mvn -B -U clean verify
     strategy:
       matrix:
-        java: [11, 17]
+        java: [17]
   publish:
     if: (github.event_name == 'push' && contains(github.ref, 'main')) || github.event_name == 'release'
     needs: build
@@ -56,13 +56,13 @@ jobs:
       - name: Extract project version
         run: echo "PROJECT_VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)" >> $GITHUB_ENV
       # Publish snapshot
-      - name: Set up JDK 11 for publishing a snapshot
+      - name: Set up JDK 17 for publishing a snapshot
         if: github.event_name == 'push' && endswith(env.PROJECT_VERSION, 'SNAPSHOT')
         uses: actions/setup-java@v4
         with:
           check-latest: true
           distribution: temurin
-          java-version: 11
+          java-version: 17
           server-id: ossrh-snapshots
           server-password: MAVEN_PASSWORD
           server-username: MAVEN_USERNAME
@@ -73,7 +73,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       # Publish release
-      - name: Set up JDK 11 for publishing a release
+      - name: Set up JDK 17 for publishing a release
         if: github.event_name == 'release' && !endswith(env.PROJECT_VERSION, 'SNAPSHOT')
         uses: actions/setup-java@v4
         with:
@@ -81,7 +81,7 @@ jobs:
           distribution: temurin
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          java-version: 11
+          java-version: 17
           server-id: ossrh
           server-password: MAVEN_PASSWORD
           server-username: MAVEN_USERNAME
