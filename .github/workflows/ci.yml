@@ -14,15 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           check-latest: true
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Set up cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-artifacts
         with:
@@ -41,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-artifacts
         with:
@@ -58,7 +58,7 @@ jobs:
       # Publish snapshot
       - name: Set up JDK 11 for publishing a snapshot
         if: github.event_name == 'push' && endswith(env.PROJECT_VERSION, 'SNAPSHOT')
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           check-latest: true
           distribution: temurin
@@ -75,7 +75,7 @@ jobs:
       # Publish release
       - name: Set up JDK 11 for publishing a release
         if: github.event_name == 'release' && !endswith(env.PROJECT_VERSION, 'SNAPSHOT')
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           check-latest: true
           distribution: temurin
