@@ -1,6 +1,5 @@
 package de.digitalcollections.streaming.euphoria.config;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -13,9 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@SuppressFBWarnings(
-    value = "THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION",
-    justification = "Spring Security throws java.lang.Exception...")
 public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
 
   @Value("${spring.security.user.name}")

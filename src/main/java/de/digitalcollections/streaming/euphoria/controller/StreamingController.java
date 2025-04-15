@@ -639,9 +639,6 @@ public class StreamingController {
    * @return The length of the written bytes.
    * @throws IOException When an I/O error occurs.
    */
-  @SuppressFBWarnings(
-      value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
-      justification = ".read() function in while-loop needs boundary check to terminate loop")
   private long stream(InputStream input, OutputStream output) throws IOException {
     try (ReadableByteChannel inputChannel = Channels.newChannel(input);
         WritableByteChannel outputChannel = Channels.newChannel(output)) {
@@ -719,6 +716,9 @@ public class StreamingController {
     private final long lastModified;
     private final long length;
 
+    @SuppressFBWarnings(
+        value = "CT_CONSTRUCTOR_THROW",
+        justification = "The exception is only thrown on Windows systems")
     private ResourceInfo(String id, FileResource resource) {
       length = resource.getSizeInBytes();
       fileName = resource.getFilename();
