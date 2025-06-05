@@ -1,10 +1,9 @@
 # Euphoria Streaming Server
 
-[![Javadocs](https://javadoc.io/badge/de.digitalcollections/streaming-server-euphoria.svg)](https://javadoc.io/doc/de.digitalcollections/streaming-server-euphoria)
-[![Build Status](https://img.shields.io/travis/dbmdz/streaming-server-euphoria/master.svg)](https://travis-ci.org/dbmdz/streaming-server-euphoria)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/dbmdz/streaming-server-euphoria/.github%2Fworkflows%2Fci.yml)](https://github.com/dbmdz/streaming-server-euphoria/actions?query=branch%3Amain)
 [![License](https://img.shields.io/github/license/dbmdz/streaming-server-euphoria.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/release/dbmdz/streaming-server-euphoria.svg)](https://github.com/dbmdz/streaming-server-euphoria/releases)
-[![Maven Central](https://img.shields.io/maven-central/v/de.digitalcollections/streaming-server-euphoria.svg)](https://search.maven.org/search?q=a:streaming-server-euphoria)
+[![Maven Central Version](https://img.shields.io/maven-central/v/dev.mdz/streaming-server-euphoria)](https://central.sonatype.com/search?q=a:streaming-server-euphoria)
 
 ## Supported formats
 
@@ -20,7 +19,7 @@
 
 ## Requirements
 
-* Java 8: You will need the Java Runtime Environment (JRE) version 1.8 or higher. At a command line, check your Java version with "java -version".
+* Java 17: You will need the Java Runtime Environment (JRE) version 17 or higher. At a command line, check your Java version with "java -version".
 
 ### Installation
 
@@ -46,4 +45,3 @@ The resolving rules (one rule per line) are configurable with regular expression
 ```
 
 Open webapp in browser (use configured 'server.port' and 'server.servlet.context-path'): http://localhost:8080/media
-
