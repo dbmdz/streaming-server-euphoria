@@ -48,8 +48,8 @@
     </developer>
   </developers>
   <ciManagement>
-    <url>https://travis-ci.org/dbmdz/streaming-server-euphoria</url>
-    <system>Travis CI</system>
+    <system>GitHub Actions</system>
+    <url>https://github.com/dbmdz/streaming-server-euphoria/actions</url>
   </ciManagement>
   <issueManagement>
     <url>https://github.com/dbmdz/streaming-server-euphoria/issues</url>
