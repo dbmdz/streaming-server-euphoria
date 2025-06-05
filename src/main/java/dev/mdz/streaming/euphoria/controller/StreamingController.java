@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.controller;
+package dev.mdz.streaming.euphoria.controller;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;

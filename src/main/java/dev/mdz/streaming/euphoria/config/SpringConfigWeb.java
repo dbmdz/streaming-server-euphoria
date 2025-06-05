@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.config;
+package dev.mdz.streaming.euphoria.config;
 
 import de.digitalcollections.commons.springmvc.interceptors.CurrentUrlAsModelAttributeHandlerInterceptor;
 import java.util.Locale;

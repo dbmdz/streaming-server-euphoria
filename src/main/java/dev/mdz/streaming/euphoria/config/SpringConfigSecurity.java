@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.config;
+package dev.mdz.streaming.euphoria.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
