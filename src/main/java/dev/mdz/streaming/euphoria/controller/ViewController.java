@@ -1,4 +1,4 @@
-package de.digitalcollections.streaming.euphoria.controller;
+package dev.mdz.streaming.euphoria.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

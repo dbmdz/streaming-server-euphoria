@@ -1,8 +1,8 @@
-package de.digitalcollections.streaming.euphoria;
+package dev.mdz.streaming.euphoria;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.digitalcollections.streaming.euphoria.config.SpringConfigSecurity;
+import dev.mdz.streaming.euphoria.config.SpringConfigSecurity;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

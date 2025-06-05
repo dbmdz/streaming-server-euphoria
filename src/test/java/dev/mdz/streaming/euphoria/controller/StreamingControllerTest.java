@@ -1,8 +1,8 @@
-package de.digitalcollections.streaming.euphoria.controller;
+package dev.mdz.streaming.euphoria.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.digitalcollections.streaming.euphoria.controller.StreamingController.Range;
+import dev.mdz.streaming.euphoria.controller.StreamingController.Range;
 import org.junit.jupiter.api.Test;
 
 public class StreamingControllerTest {
