@@ -63,7 +63,7 @@ jobs:
           check-latest: true
           distribution: temurin
           java-version: 17
-          server-id: ossrh-snapshots
+          server-id: central
           server-password: MAVEN_PASSWORD
           server-username: MAVEN_USERNAME
       - name: Publish snapshot to the Maven Central Repository
@@ -82,7 +82,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           java-version: 17
-          server-id: ossrh
+          server-id: central
           server-password: MAVEN_PASSWORD
           server-username: MAVEN_USERNAME
       - name: Publish release to the Maven Central Repository
