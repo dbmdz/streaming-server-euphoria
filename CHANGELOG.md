@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## Unreleased
 
+## [5.0.0](https://github.com/dbmdz/streaming-server-euphoria/releases/tag/5.0.0) - 2025-06-06
+
 ### Changed
 
 - **Breaking**: Changed `groupId` and renamed packages
